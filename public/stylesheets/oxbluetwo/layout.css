@@ -1,0 +1,113 @@
+
+
+
+
+
+
+/*
+
+This stylesheet sets out the basic layout of the page. If you are happy with the basic layout of the page, and only wish to make stylistic changes (changing colours, background images, etc.) or adding styling to particular page elements, then it is recommended that you leave this stylesheet as is, and affect any changes in the lookandfeel.css file, which is referenced AFTER this sheet, and will therefore override styles in this sheet.
+
+this stylesheet expect the following divs to be present in the HTML, in the order specified:
+
+body
+	div#all
+
+		div#header
+		div#content
+		div#mainnav
+		div#footer
+*/
+
+body
+{
+	padding: 0px;
+	margin: 0px;
+	margin-bottom: 30px;
+	background-color: #eee;
+}
+
+
+div#all {
+ position: relative;
+text-align: left;
+	width: 980px;
+margin-left: auto;
+margin-right: auto;
+}
+
+div#header
+{
+	height: 161px;
+  width: 980px;
+  margin-bottom: 20px;
+  /*display: inline-block; */
+}
+
+
+/* give padding to div's that directly contain content*/
+div#content, div#mainnav, div#additional, div#footer
+{
+	padding: 1em;
+}
+
+
+/* make sure the footer div clears any floated items in the main content div*/
+div#footer
+{
+	margin-top: 42px;
+	clear:both;
+  }
+
+/* give additional padding to items inside the footer div*/
+div#footer *
+{
+	padding: 1em;
+}
+
+
+/* position mainnav div below the header div and to the left of the page*/
+ div#mainnav
+ {
+	position: absolute;
+ 	top: 162px;
+ 	left: 0px;
+ 	width: 180px;
+ 	padding: 0px;
+ 	margin: 0px;
+ 	background-color: #fff;
+ }
+ /*  hide the main nav h2 - it makes sense to have it in the mark-up, but we don't want to show it,  as the purpose of the nav bar is obvious visually.
+ 
+To hide it, we set the position as absolute, and place it way off screen (this is recommended in preference to using display:none because "display:none" may hide it from screenreaders, which we don't want)
+ */
+  div#mainnav h2
+ {
+ 	position: absolute;
+ 	left: -3600px;
+ }
+
+
+ 
+
+/* for the div's below header that aren't absolutely positioned, give them a left margin as least as wide as the width of the absolutely positioned mainnav column, so that they don't overlap witht the mainnav column */
+div#content, div#footer
+{
+	margin: 5px;
+}
+div#content
+{
+  margin-top: 55px;
+}
+
+/*  IE 6 only selector to force 'has-layout'  to fix the peekaboo bug   
+
+(only IE 6 will recognise "* html" as a valid selector)
+
+*/
+
+* html div#all
+{
+	height: 1%;
+	position: relative;
+}

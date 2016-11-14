@@ -1,0 +1,19 @@
+<h1>User Information</h1>
+
+<p>User's account: <%= @user.email -%>
+<% if !@account.blank? -%>
+  <br>User belongs to account: <%= link_to @account.name, :controller => 'accounts', :action => 'show', :id => @account.id -%>
+<% end -%>
+</p>
+<br/>
+
+<p>Change user account: 
+<%= form_tag :controller => 'user', :action => 'show_user' do -%>
+  <%= select("account", "id", Account.all.collect {|a| [ a.name, a.id ] }, { :include_blank => false }) -%>
+  <%= submit_tag 'Submit' %>
+<% end -%>
+</p>
+<br/>
+
+<h2>User's IP address:</h2>
+<p><%= hostname(@user.last_sign_in_ip).html_safe -%>

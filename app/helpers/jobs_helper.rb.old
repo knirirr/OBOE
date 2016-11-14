@@ -1,0 +1,630 @@
+module JobsHelper
+
+  def sdmstatus
+    status = "/home/milo/Dropbox/Jobs/sdm/status.txt"
+    data = ""
+    if File.exists?(status)
+      data += "<p><font color=\"red\">#{File.mtime(status)}:</font><br>\n"
+      data += `cat #{status}`
+    end
+    return data.html_safe
+  end
+
+  def leftstatus
+    status = "/home/milo/Dropbox/Jobs/left/status.txt"
+    data = ""
+    if File.exists?(status)
+      data += "<p><font color=\"red\">#{File.mtime(status)}:</font><br>\n"
+      data += `cat #{status}`
+    end
+    return data.html_safe
+  end
+
+  def gmaps_header(jobtype)
+
+    # starting point for new polygons
+    lat = 51.751944
+    long = -1.257778
+
+    # load the google maps and polygon scripts
+    if jobtype == 'left'
+      scripts = 
+"<link rel=\"stylesheet\" href=\"https://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css\" type=\"text/css\"/>
+<script type=\"text/javascript\" src=\"https://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing,places \"></script>"
+    else
+      scripts = 
+"<link rel=\"stylesheet\" href=\"https://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css\" type=\"text/css\"/>
+<script type=\"text/javascript\" src=\"https://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing,places \"></script>
+<script type=\"text/javascript\" src=\"/assets/js/label.js\"></script>"
+    end
+
+
+
+    # create a new map with this javascript
+    if jobtype == 'left'
+      header_create = 
+ "#{scripts}	
+	<script type=\"text/javascript\">
+      var geocoder;
+      var map;
+      var drawingManager;
+      var stopdrawing = false;
+      var rect;
+
+      function initialize(loc,zoom) {
+        geocoder = new google.maps.Geocoder();
+        var skegness = new google.maps.LatLng(53.145658, 0.338519);
+        var mapOptions = {
+  	    zoom: 4,
+          minZoom: 2,
+    	    center: skegness,
+          scrollwheel: false,
+          disableDoubleClickZoom: true,
+  	    mapTypeId: google.maps.MapTypeId.TERRAIN
+        };
+        map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+        drawingManager = new google.maps.drawing.DrawingManager({
+          drawingMode: google.maps.drawing.OverlayType.RECTANGLE,
+          drawingControl:true,
+          drawingControlOptions: {
+            position: google.maps.ControlPosition.TOP_CENTER,
+            drawingModes: [google.maps.drawing.OverlayType.RECTANGLE]
+          },
+          rectangleOptions: {
+            fillColor: '#CE4C96',
+            fillOpacity: 0.45,
+            strokeWeight: 0,
+            clickable: false,
+            zIndex: 1,
+            editable: true
+          }
+        });
+        drawingManager.setMap(map);
+
+        google.maps.event.addListener(drawingManager, 'rectanglecomplete', function(rectangle) {
+          rect = rectangle;
+          drawingManager.setMap(null);
+          updateCoords(rectangle.getBounds());
+          google.maps.event.addListener(rectangle, 'bounds_changed', function() {
+            updateCoords(rectangle.getBounds());
+          });
+        });
+
+        // autocomplete addresses
+        var input = document.getElementById('address');
+        var options = {
+          types: ['geocode']
+        };
+        autocomplete = new google.maps.places.Autocomplete(input, options);
+
+        google.maps.event.addListener(autocomplete, 'place_changed', function() {
+          var place = autocomplete.getPlace();
+          if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+          } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(10);
+          }
+        });
+      }
+
+      function updateCoords(coords)
+      {
+        //alert(coords);
+        var north = coords.getNorthEast().lat(); 
+        var south = coords.getSouthWest().lat();
+        var east = coords.getNorthEast().lng(); 
+        var west = coords.getSouthWest().lng();
+
+        // the hidden coords field
+        var write = 'POLYGON((' + north + ',' + west + ' ' + north + ',' + east + ' ' + south + ',' + east + ' ' + south + ',' + west + '))';
+        $('#job_parameters_coords').text(write);
+
+        // the visible fields
+        $('#north').val(north.toString());
+        $('#south').val(south.toString());
+        $('#east').val(east.toString());
+        $('#west').val(west.toString());
+
+        // reveal the button
+        $('#submit_message').hide();
+        $('#submit_button').show();
+
+      }
+
+      /*
+      function codeAddress() {
+        var address = document.getElementById(\"address\").value;
+        geocoder.geocode({ 'address':address}, function (results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            map.setCenter(results[0].geometry.location);
+            map.setZoom(10);
+          } else {
+            alert(\"Geocode was not successful for the following reason: \" + status);
+          }
+        });
+      }
+      */
+
+      // zoom to spot when user presses enter
+      $('#address').live('keypress', function (event) {
+        if(event.which == '13') {
+          codeAddress();
+        }
+      });
+
+      // read text in boxes and move map
+      $(function () { 
+        $('#north').change( function() { moveRect(); });
+      });
+      $(function () { 
+        $('#south').change( function() { moveRect(); });
+      });
+      $(function () { 
+        $('#east').change( function() { moveRect(); });
+      });
+      $(function () { 
+        $('#west').change( function() { moveRect(); });
+      });
+
+      function moveRect()
+      {
+        var north = $('#north').val();        
+        var south = $('#south').val();        
+        var east = $('#east').val();        
+        var west = $('#west').val();        
+        var south_west = new google.maps.LatLng(south,west);
+        var north_east = new google.maps.LatLng(north,east);
+        var bounds = new google.maps.LatLngBounds(south_west,north_east);
+
+        // if no rectangle, create one
+        if (rect == null)
+        {
+          drawingManager.setMap(null);
+          rect = new google.maps.Rectangle({
+            map: map, 
+            bounds: bounds, 
+            editable: true,
+            fillColor: '#CE4C96',
+            fillOpacity: 0.45,
+            strokeWeight: 0,
+            clickable: false,
+            zIndex: 1
+          });
+          google.maps.event.addListener(rect, 'bounds_changed', function() {
+            updateCoords(rect.getBounds());
+          });
+        }
+
+        // change position
+        rect.setBounds(bounds);
+        rect.setMap(map);
+        map.setCenter(bounds.getCenter());
+      }
+
+      // Deletes all markers in the array by removing references to them.
+      function deleteOverlays() 
+      {
+        $('#job_parameters_coords').text('');
+        $('#north').val('');
+        $('#south').val('');
+        $('#east').val('');
+        $('#west').val('');
+        $('#submit_message').show();
+        $('#submit_button').hide();
+        rect = null;
+        redraw(map.getCenter(),map.getZoom(),map.getMapTypeId()); // this isn't great but it seems to work
+      }
+
+      // such duplication of code is very lazy, but less hassle than trying to test
+      // whether javascript variables are defined. Honest.
+      function redraw(loc,zoom,type)
+      {
+        geocoder = new google.maps.Geocoder();
+        var skegness = new google.maps.LatLng(53.145658, 0.338519);
+        var mapOptions = {
+  	      zoom: zoom,
+          minZoom: 2,
+    	    center: loc,
+          scrollwheel: false,
+          disableDoubleClickZoom: true,
+  	      mapTypeId: type
+        };
+        map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+        drawingManager = new google.maps.drawing.DrawingManager({
+          drawingMode: google.maps.drawing.OverlayType.RECTANGLE,
+          drawingControl:true,
+          drawingControlOptions: {
+            position: google.maps.ControlPosition.TOP_CENTER,
+            drawingModes: [google.maps.drawing.OverlayType.RECTANGLE]
+          },
+          rectangleOptions: {
+            fillColor: '#CE4C96',
+            fillOpacity: 0.45,
+            strokeWeight: 0,
+            clickable: false,
+            zIndex: 1,
+            editable: true
+          }
+        });
+        drawingManager.setMap(map);
+
+        google.maps.event.addListener(drawingManager, 'rectanglecomplete', function(rectangle) {
+          rect = rectangle;
+          drawingManager.setMap(null);
+          updateCoords(rectangle.getBounds());
+          google.maps.event.addListener(rectangle, 'bounds_changed', function() {
+            updateCoords(rectangle.getBounds());
+          });
+        });
+
+      }
+
+
+      // finally, initialise the map
+      google.maps.event.addDomListener(window, 'load', initialize);
+  </script>"
+
+    else
+      header_create = 
+ "#{scripts}	
+	<script type=\"text/javascript\">
+      var geocoder;
+      var map;
+      var leftArea;
+      var bBox;
+      var markers = [];
+      var stopDrawing = false;
+
+      function initialize() {
+        geocoder = new google.maps.Geocoder();
+        var skegness = new google.maps.LatLng(53.145658, 0.338519);
+        var mapOptions = {
+  	    zoom: 4,
+          minZoom: 2,
+    	    center: skegness,
+          scrollwheel: false,
+          disableDoubleClickZoom: true,
+  	    mapTypeId: google.maps.MapTypeId.TERRAIN
+        };
+        map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+        google.maps.event.addListener(map, 'click', function(event) {
+          if (stopDrawing == false) {
+            addMarker(event.latLng);
+          }
+        });
+
+      }
+
+      function redraw(loc,zoom)
+      {
+        var mapOptions = {
+  	    zoom: zoom,
+          minZoom: 2,
+    	    center: loc,
+          scrollwheel: false,
+          disableDoubleClickZoom: true,
+  	    mapTypeId: google.maps.MapTypeId.TERRAIN
+        };
+        map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+        google.maps.event.addListener(map, 'click', function(event) {
+          if (stopDrawing == false) {
+            addMarker(event.latLng);
+          }
+        });
+      }
+
+      function codeAddress() {
+        var address = document.getElementById(\"address\").value;
+        geocoder.geocode({ 'address':address}, function (results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            map.setCenter(results[0].geometry.location);
+            map.setZoom(10);
+          } else {
+            alert(\"Geocode was not successful for the following reason: \" + status);
+          }
+        });
+      }
+
+      // zoom to spot when user presses enter
+      $('#address').live('keypress', function (event) {
+        if(event.which == '13') {
+          codeAddress();
+        }
+      });
+
+
+      // Add a marker to the map and push to the array.
+      function addMarker(location) 
+      {
+        if (markers.length < 1)
+        {
+          var marker = new google.maps.Marker({
+            position: location,
+            icon: '/images/first#{jobtype}marker.png',
+            map: map
+          });
+        }
+        else
+        {
+          var marker = new google.maps.Marker({
+            position: location,
+            icon: '/images/#{jobtype}marker.png',
+            map: map
+          });
+        }
+        marker.setDraggable(true);
+        marker.setShadow('/images/shadow.png');
+        var label = new Label({
+          map: map
+        });
+        label.bindTo('position', marker, 'position');
+        label.bindTo('text', marker, 'position');
+        if (markers.length < 1)
+        {
+          google.maps.event.addListener(marker, 'click', function() 
+          {
+            drawShape();
+            drawBox();
+          });
+        }
+        var oldtext = $('#job_parameters_coords').text();
+        markers.push(marker);
+      }
+
+      // Detect click on first marker
+      function drawShape()
+      {
+        if (markers.length > 2) 
+        {
+          // the actual area the user has selected
+          var leftCoords = [];
+          for (var i = 0; i < markers.length; i++)
+          {
+            var coord = markers[i].getPosition();
+            leftCoords.push(coord);
+            markers[i].setDraggable(false);
+          }
+          stopDrawing = true;
+          // draw shape and update text field
+          leftArea = new google.maps.Polygon({
+            paths: leftCoords,
+            strokeColor: '#{Job.fill_colour(jobtype)}',
+            strokeOpacity: 0.35,
+            strokeWeight: 1,
+            fillColor: '#{Job.fill_colour(jobtype)}',
+            fillOpacity: 0.35,
+            editable: false
+          });
+          leftArea.setMap(map);
+          writeCoords(leftCoords);
+          $('#submit_message').hide();
+          $('#submit_button').show();
+        }
+      }
+
+      // http://javascript.about.com/library/blarmaxmin.htm
+      Array.prototype.max = function() {
+        var max = this[0];
+        var len = this.length;
+        for (var i = 1; i < len; i++) if (this[i] > max) max = this[i];
+        return max;
+      }
+      Array.prototype.min = function() {
+        var min = this[0];
+        var len = this.length;
+        for (var i = 1; i < len; i++) if (this[i] < min) min = this[i];
+        return min;
+      } 
+
+      // Detect click on first marker
+      function drawBox()
+      {
+        if (markers.length > 2) 
+        {
+          // the actual area the user has selected
+          var lats = [];
+          var longs = [];
+          for (var i = 0; i < markers.length; i++)
+          {
+            var coord = markers[i].getPosition();
+            lats.push(parseFloat(coord.lat()));
+            longs.push(parseFloat(coord.lng()));
+          }
+
+          // the area that will actually be submitted to LEFT
+          var bounding = [];
+          bounding.push(new google.maps.LatLng(lats.max(),longs.max()));
+          bounding.push(new google.maps.LatLng(lats.max(),longs.min()));
+          bounding.push(new google.maps.LatLng(lats.min(),longs.min()));
+          bounding.push(new google.maps.LatLng(lats.min(),longs.max()));
+          bBox = new google.maps.Polygon({
+            paths: bounding,
+            strokeColor: '#{Job.fill_colour(jobtype)}',
+            strokeOpacity: 0.9,
+            strokeWeight: 1,
+            fillColor: '#{Job.fill_colour(jobtype)}',
+            fillOpacity: 0.1,
+            editable: false
+          });
+          bBox.setMap(map);
+        }
+      }
+
+
+      // put some text on into the appropriate map area
+      // http://en.wikipedia.org/wiki/Well-known_text
+      function writeCoords(leftCoords)
+      {
+        var write = 'POLYGON((';
+        var first = 0;
+        for (var i = 0; i < leftCoords.length; i++)
+        {
+          var coord = leftCoords[i].toString();
+          if (first == 1)
+          {
+            coord = ' '.concat(coord);
+          }
+          coord = coord.replace(/[\\(\\)]/g,'');
+          coord = coord.replace(/,\s+/g,',');
+          write = write.concat(coord);
+          first = 1;
+        }
+        write = write.concat('))');
+        $('#job_parameters_coords').text(write);
+      }
+
+      // Sets the map on all markers in the array.
+      function setAllMap(map) {
+        for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(map);
+        }
+      }
+
+      // Deletes all markers in the array by removing references to them.
+      function deleteOverlays() 
+      {
+        setAllMap(null);
+        markers = [];
+        stopDrawing = false;
+        $('#job_parameters_coords').text('');
+        if (typeof leftArea != 'undefined')
+        {
+          leftArea.setMap(null);
+        }
+        if (typeof bBox != 'undefined')
+        {
+          bBox.setMap(null);
+        }
+        $('#job_parameters_coords').text('');
+        $('#submit_message').show();
+        $('#submit_button').hide();
+        redraw(map.getCenter(),map.getZoom()); // this isn't great but it seems to work
+        
+      }
+
+      google.maps.event.addDomListener(window, 'load', initialize);
+    
+	</script>"
+    end
+    
+    # setup for job display here
+    javascript = ""
+    count = 0
+    if !jobtype.nil? and (jobtype == 'left' or jobtype == 'sdm') and request.path !~ /new$/
+
+      if !@job.nil?
+        # get and process those coords
+        # Holy crap, what the hell is going on here? An array of arrays, but why? 
+        # answer - for when Neil requests multiple polygons
+        if !@job.parameters['coords'].nil?
+          coords = Array[@job.parameters['coords'].gsub("POLYGON((","").gsub("))", "").split(/\s+/)]
+        else
+          coords = Array[["#{@job.parameters[:nlat]},#{@job.parameters[:wlong]}","#{@job.parameters[:nlat]},#{@job.parameters[:elong]}","#{@job.parameters[:slat]},#{@job.parameters[:elong]}","#{@job.parameters[:slat]},#{@job.parameters[:wlong]}"]]
+        end
+         
+        # coordinates supplied by clicking on the map
+        coords.each do |c|
+          javascript += "var coords_#{count} = [\n"
+          0.upto(c.length - 1) do |d|
+            javascript += "new google.maps.LatLng(#{c[d]})"
+            if d == c.length - 1
+              javascript += "\n"
+            else
+              javascript += ",\n"             
+            end
+          end
+          javascript += "];\n"
+
+          javascript +=
+            "poly_#{count} = new google.maps.Polygon({
+             paths: coords_#{count},
+             strokeColor: \"#{Job.fill_colour(jobtype)}\",
+             strokeOpacity: 0.35,
+             strokeWeight: 1,
+             fillColor: \"#{Job.fill_colour(jobtype)}\",
+             fillOpacity: 0.35
+            });\n
+            poly_#{count}.setMap(map);\n"
+
+          boxlats = coords[count].collect{|x| x.split(',')[0].to_f}
+          boxlongs = coords[count].collect{|x| x.split(',')[1].to_f}
+          javascript += "var bBox_#{count} = [];\n"
+          javascript += "bBox_#{count}.push(new google.maps.LatLng(#{boxlats.max},#{boxlongs.max}));\n"
+          javascript += "bBox_#{count}.push(new google.maps.LatLng(#{boxlats.max},#{boxlongs.min}));\n"
+          javascript += "bBox_#{count}.push(new google.maps.LatLng(#{boxlats.min},#{boxlongs.min}));\n"
+          javascript += "bBox_#{count}.push(new google.maps.LatLng(#{boxlats.min},#{boxlongs.max}));\n"
+          javascript +=
+   "bBox_#{count} = new google.maps.Polygon({
+    paths: bBox_#{count},
+    strokeColor: \"#{Job.fill_colour(jobtype)}\",
+    strokeOpacity: 0.9,
+    strokeWeight: 1,
+    fillColor: \"#{Job.fill_colour(jobtype)}\",
+    fillOpacity: 0.1
+  });\n
+  bBox_#{count}.setMap(map);\n"
+         
+          count += 1
+        end
+        # get lat/long for centre of map
+        if !coords[0].empty?
+          lats = Array.new
+          longs = Array.new
+          coords[0].each do |c|
+            parts = c.split(",")
+            lats << parts[0].to_f
+            longs << parts[1].to_f
+          end
+          lat = lats.min + ((lats.max - lats.min) / 2);
+          long = longs.min + ((longs.max - longs.min) / 2);
+        else
+          # eventually some info. from the KML file will go here instead
+          lat = 51.751944
+          long = -1.257778
+        end
+      end
+    end
+
+    # this javascript is to display the map; refer to the code above
+    # for how the variables are set up
+    header_view = 
+ "#{scripts}	
+	<script type=\"text/javascript\">
+	$(function(){
+		  //create map
+		 var mapCentre=new google.maps.LatLng(#{lat}, #{long});
+		 var myOptions = {
+		  	zoom: 4,
+        minZoom: 2,
+		  	center: mapCentre,
+        scrollwheel: false,
+		  	mapTypeId: google.maps.MapTypeId.TERRAIN
+		  }
+		 map = new google.maps.Map(document.getElementById('map'), myOptions);
+
+     /* a variety of points have to be collected here and
+      * a polygon made out of them
+      */
+      #{javascript}
+
+	 
+	});	
+	</script>"
+
+
+    if !jobtype.nil? and (jobtype == 'left' or jobtype == 'sdm') and request.path =~ /new/
+      return header_create
+    elsif !jobtype.nil? and (jobtype == 'left' or jobtype == 'sdm')
+      return header_view      
+    else
+      return ""
+    end
+
+  end
+
+end

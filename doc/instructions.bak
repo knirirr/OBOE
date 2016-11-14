@@ -1,0 +1,51 @@
+*** Instructions ***
+
+Requests should be sent  as json to various URLs on the site to create or update
+job requests, and various URLs can be accessed to get information. There's also 
+a web interface. The base URL is https://vibrant.oerc.ox.ac.uk. 
+
+A summary of some of the avilable methods is below.
+
+/routes => list all available URLs.
+/docs => show this information.
+/parameters/:type => input parameters for a job (json)
+/search.json => show all available jobs.
+/jobs.json => show all available jobs.
+/download/:id => download output for a job
+/download/infile/:id => download input file for a job
+/jobs/:id.json => show job status
+
+...more are available in the routes output, which will show whether they are to be POST, GET &c.
+
+** Authentication **
+
+If posting JSON then it is necessary to also post an auth_token, as shown below. Only certain
+users are allowed to have one, and they may view (and change) it on the web interface. The
+link to the "show token" page will appear when logged in.
+
+** Examples **
+
+These examples use the Ruby Rest::Client gem; other languages should follow the same principles. 
+
+* New job *
+
+response = RestClient.post 'http://vibrant.oerc.ox.ac.uk/jobs.json',  :job => {:job_name => "Test post", :job_description => "Testing the API", :infile => File.new("/tmp/test.txt", 'rb'), :type => 'test', :parameters => {:test => "A test string"}}, :auth_token => 'weafliejalfies'
+puts response.to_str
+
+The response.to_str will return the json job object, so that the creating application will know the job's ID. This ID is used when checking the job's status, downloading its output, and so on. In the example below the ID from the job above is: 4e09b48e35d3102a7d000371.
+
+* Updating a job *
+
+response = RestClient.put 'http://vibrant.oerc.ox.ac.u/jobs/4e09b48e35d3102a7d000371.json',  :job => {:parameters => {:test => "A longer test string"}}, :auth_token => 'weafliejalfies' 
+
+** Paramters **
+
+Parameters for a job are stored in a hash by the name of "parameters". Different jobs require different values here, which can be determined by querying http://vibrant.oerc.ox.ac.uk/parameters/:job_type. A json object containing the internal name of the parameter and a brief description will be return.
+
+** Notes **
+
+Input files can be posted by using a mulitpart post or the url of a file can be
+set as the "inputurl" parameter; in the latter case the system will download
+the file from the supplied URL before processing.
+
+Timestamps will be updated automatically when jobs are created or modified.

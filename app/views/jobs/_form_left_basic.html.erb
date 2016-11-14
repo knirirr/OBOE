@@ -1,0 +1,65 @@
+<p> A LEFT analysis requires only the entry of four numbers: the North, South, West and East edges of a geographic rectangle entered as decimal degrees.
+
+<div id="map" style='display:none;'>
+</div>
+
+<div id="params">
+  <%= form_for(@job, :html => { :multipart => true, :id => 'job_form'}) do |f| %>
+  <% if @job.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@job.errors.count, "error") %> prohibited this job from being saved:</h2>
+
+      <ul>
+      <% @job.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div id="side">
+  </div>
+
+  <br><b>Job title and description</b><br>
+  <div class="field">
+    <%= f.text_field :job_name, :value => @job.job_name || ""  -%>  
+    <%= f.label 'Title' %>
+  </div>  
+  <div class="field">    
+    <%= f.text_field :job_description, :value => @job.job_description || "" -%>
+    <%= f.label 'Description' %>
+  </div>
+
+  <%= f.fields_for :parameters do |p| %>
+
+  <br><b>Coordinates (decimal degrees)</b><br>
+  <span style="font-weight:normal">Enter only real decimal numbers between -180 and 180 for west to east longitudes, and between -90 and 90 for south to north latitudes. Enter only one coordinate per box.</span>
+  <div class="field">
+    <%= p.text_field :nlat, :value => @job.parameters['nlat'] -%>
+    <%= p.label 'North-latitude' %>
+  </div>
+  <div class="field">
+    <%= p.text_field :slat, :value => @job.parameters['slat'] -%>
+    <%= p.label 'South-latitude' %>
+  </div>
+  <div class="field">
+    <%= p.text_field :wlong, :value => @job.parameters['wlong'] -%>
+    <%= p.label 'West-longitude' %>
+  </div>
+  <div class="field">
+    <%= p.text_field :elong, :value => @job.parameters['elong'] -%>
+    <%= p.label 'East-longitude' %>
+  </div>
+
+
+  <% end -%>  
+
+  <br>Click the button below to submit the values for your analysis:
+  <div class="actions">
+    <%= f.submit "Submit"%>
+  </div>
+
+<% end %>
+</div>
+
+

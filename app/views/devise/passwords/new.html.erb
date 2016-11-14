@@ -1,0 +1,20 @@
+<div id="login" class="login_form">
+
+<div class="oboe-services-header">
+<span class="content-section edit-user-section"><span class="header-text">Forgotten your password?</span></span>
+</div>
+
+<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post, :class => 'formbody' }) do |f| %>
+  <%= devise_error_messages! %>
+
+  <div><%= f.label :email, :class => 'text form-text', :size => 30  %><br />
+  <%= f.email_field :email %></div>
+
+  <div><%= f.submit "Send me reset password instructions" %></div>
+<% end %>
+
+<div class="login-additional">
+<%= render :partial => "devise/shared/links" %>
+</div>
+
+</div>

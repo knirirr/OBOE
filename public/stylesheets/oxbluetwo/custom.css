@@ -1,0 +1,72 @@
+#error {
+        text-align: center;
+        padding: 1em;
+        margin-bottom: 2em;
+        background-color: #AFEEEE;
+        color: #DE1436; 
+        font: bold smaller sans-serif;
+        border: solid thin #DE1436;
+        -moz-border-radius:10px;
+        -webkit-border-radius:10px;
+
+}
+#notice {
+        text-align: center;
+        padding: 1em;
+        margin-bottom: 2em;
+        background-color: #AFEEEE;
+        color: #228B22; 
+        font: bold smaller sans-serif;
+        border: solid thin #228B22;
+        -moz-border-radius:10px;
+        -webkit-border-radius:10px;
+}
+#alert {
+        text-align: center;
+        padding: 1em;
+        margin-bottom: 2em;
+        background-color: #FF8000;
+        color: black; 
+        font: bold smaller sans-serif;
+        border: solid thin black;
+        -moz-border-radius:10px;
+        -webkit-border-radius:10px;
+}
+#map {
+  width: 600;
+  height: 450px;
+  margin-left:auto;
+  margin-right:auto;
+  border-top: 1px solid #999999;    
+  border-left: 1px solid #999999;    
+  border-right: 1px solid #999999;    
+
+}
+#params {
+  left: 0px;
+}
+
+form#job_form {    
+  padding: 5px;
+  background-color: #E0F0FF;    
+  color: #000000;    
+  border: 1px solid #999999;    
+
+  /*
+  font-family: Verdana, Arial, Helvetica, bold, sans-serif;    
+  font-size: 12px;    
+  text-align: left;    
+  */
+	font-family: sans-serif;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: bold;
+	font-size: small;
+	line-height: 100%;
+	word-spacing: normal;
+	letter-spacing: normal;
+	text-decoration: none;
+	text-transform: none;
+	text-align: left;
+	text-indent: 0ex;
+}  

@@ -1,0 +1,41 @@
+[warning] tried to patch Rails without Rails being loaded
+=> Booting Thin
+=> Rails 3.2.11 application starting in development on http://0.0.0.0:3000
+=> Call with -d to detach
+=> Ctrl-C to shutdown server
+Exiting
+/usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/mongo-1.8.1/lib/mongo/mongo_replica_set_client.rb:116:in `initialize': Too many arguments (Mongo::MongoArgumentError)
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/mongo-1.8.1/lib/mongo/legacy.rb:71:in `initialize'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/mongo_mapper-0.12.0/lib/mongo_mapper/connection.rb:76:in `new'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/mongo_mapper-0.12.0/lib/mongo_mapper/connection.rb:76:in `connect'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/mongo_mapper-0.12.0/lib/mongo_mapper/connection.rb:89:in `setup'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/mongo_mapper-0.12.0/lib/mongo_mapper/railtie.rb:28:in `block in <class:Railtie>'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/railties-3.2.11/lib/rails/initializable.rb:30:in `instance_exec'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/railties-3.2.11/lib/rails/initializable.rb:30:in `run'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/railties-3.2.11/lib/rails/initializable.rb:55:in `block in run_initializers'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/railties-3.2.11/lib/rails/initializable.rb:54:in `each'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/railties-3.2.11/lib/rails/initializable.rb:54:in `run_initializers'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/railties-3.2.11/lib/rails/application.rb:136:in `initialize!'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/railties-3.2.11/lib/rails/railtie/configurable.rb:30:in `method_missing'
+	from /home/milo/Work/Web/vibrant/config/environment.rb:11:in `<top (required)>'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/activesupport-3.2.11/lib/active_support/dependencies.rb:251:in `require'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/activesupport-3.2.11/lib/active_support/dependencies.rb:251:in `block in require'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/activesupport-3.2.11/lib/active_support/dependencies.rb:236:in `load_dependency'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/activesupport-3.2.11/lib/active_support/dependencies.rb:251:in `require'
+	from /home/milo/Work/Web/vibrant/config.ru:3:in `block in <main>'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/rack-1.4.3/lib/rack/builder.rb:51:in `instance_eval'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/rack-1.4.3/lib/rack/builder.rb:51:in `initialize'
+	from /home/milo/Work/Web/vibrant/config.ru:in `new'
+	from /home/milo/Work/Web/vibrant/config.ru:in `<main>'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/rack-1.4.3/lib/rack/builder.rb:40:in `eval'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/rack-1.4.3/lib/rack/builder.rb:40:in `parse_file'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/rack-1.4.3/lib/rack/server.rb:200:in `app'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/railties-3.2.11/lib/rails/commands/server.rb:46:in `app'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/rack-1.4.3/lib/rack/server.rb:304:in `wrapped_app'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/rack-1.4.3/lib/rack/server.rb:254:in `start'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/railties-3.2.11/lib/rails/commands/server.rb:70:in `start'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/railties-3.2.11/lib/rails/commands.rb:55:in `block in <top (required)>'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/railties-3.2.11/lib/rails/commands.rb:50:in `tap'
+	from /usr/local/rvm/gems/ruby-1.9.3-head@oboe/gems/railties-3.2.11/lib/rails/commands.rb:50:in `<top (required)>'
+	from script/rails:6:in `require'
+	from script/rails:6:in `<main>'

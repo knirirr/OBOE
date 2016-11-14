@@ -1,0 +1,73 @@
+<p>
+  <b>Name:</b>
+  <%= @account.name %>
+</p>
+
+
+<div id="accountDetails">
+<p>
+  <table class="table table-condensed" cellpadding="2">
+    <tr valign="top" class="ListLine0">
+      <th>Type</th>
+      <th>Total</th>
+      <th>Credits</th>
+      <th>Expiry</th>
+      <th>Arrears?</th>
+    </tr>
+
+    <% 
+      odd_or_even = 0
+      @selectopts.each_pair do |k,v|
+        odd_or_even = 1 - odd_or_even
+    %>
+      <tr valign="top" class="ListLine<%= odd_or_even -%>">  
+        <td><%= k -%></td>
+        <td><%= @account.totals[v] || "OMG ERROR" -%></td>
+        <td><%= @account.credits[v] || "OMG ERROR" -%></td>
+        <td><%= expired?(@account.expiry[v] || "15/04/1912") -%></td>
+        <td><%= button_to arreartext(@account.arrears[v] || "no"), {:controller => '/accounts', :action => "toggle_arrears", :id => @account.id, :type => v}, :class => abuttong(@account.arrears[v]), :id => "#{@account.id}_#{v}" -%>  </td>
+      </tr>
+    <% end -%>
+  </table>
+</p>
+</div>
+
+<% if !@users -%>
+  <b>Members:</b> None.
+<% else -%>
+<p>
+  <b>Members:</b>
+  <table class="table table-condensed" cellpadding="2">
+    <tr valign="top" class="ListLine0">
+      <th>Email</th>
+      <th>Created</th>
+      <th>Last login</th>
+      <th>IP address</th>
+      <th>Token enabled?</th>
+      <th>Admin?</th>
+    </tr>
+
+    <% 
+      odd_or_even = 0
+      @users.each do |user| 
+        odd_or_even = 1 - odd_or_even
+        next if user.nil?
+    %>
+      <tr valign="top" class="ListLine<%= odd_or_even -%>">  
+        <td><a href="/users/show/<%= user.id -%>"><%= user.email -%></a></td>
+        <td><%= user.created_at %></td>
+        <td><%= user.last_sign_in_at || "N/A" %></td>    
+        <td><%= user.last_sign_in_ip || "N/A" %></td>    
+        <td align="center"><%=  "<span class='label label-success'>yes</span>".html_safe if !user.authentication_token.nil? %></td>
+        <td align="center"><%= "<span class='label label-success'>yes</span>".html_safe if user.admin == true %></td>
+      </tr>
+    <% end -%>
+  </table>
+
+</p>
+<% end -%>
+
+<%= link_to 'Edit', edit_account_path(@account) %> |
+<%= link_to 'Back', accounts_path %>
+
+

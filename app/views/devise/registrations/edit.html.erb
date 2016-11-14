@@ -1,0 +1,35 @@
+<div id="login" class="login_form">
+  
+  <div class="oboe-services-header">
+    <span class="content-section edit-user-section"><span class="header-text">Edit <%= resource_name.to_s.humanize %></span></span>
+  </div>
+
+
+  <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put,  :class => 'formbody' }) do |f| %>
+  <%= devise_error_messages! %>
+
+  <div><%= f.label :email %><br />
+    <%= f.email_field :email, :class => 'text form-text', :size => '30' %></div>
+
+  <div><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+  <%= f.password_field :password, :class => 'text form-text' %></div>
+
+  <div><%= f.label :password_confirmation %><br />
+  <%= f.password_field :password_confirmation, :class => 'text form-text', :size => '30' %></div>
+
+  <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+  <%= f.password_field :current_password, :class => 'text form-text', :size => '30' %></div>
+
+<center>
+<div><%= f.submit "Update", :class => "btn btn-success" %></div>
+</center>
+<% end %>
+
+<div class="oboe-services-header danger-header"><span class="danger-text">Cancel my account</span></div>
+
+<div class="formbody">
+<p class='leaving'>Unhappy, or simply wish to leave?<br/> <%= link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete, :class => 'btn btn-danger' %></p>
+</div>
+
+
+</div>

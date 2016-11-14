@@ -1,0 +1,193 @@
+categories:
+  - name: Ecological Informatics
+    jobs:
+      - name: Local Ecological Footprinting Tool
+        type: left
+        url: 
+        description: 
+          - short: The Local Ecological Footprinting Tool - LEFT - produces an ecological valuation report for a specified area. It is intended as a pre-planning tool to use before undertaking further field-based investigations and quickly highlights areas of high ecological value to avoid in the location of facilities with an environmentally damaging footprint.
+            long:
+        icon: 
+          - small: /assets/img/services/left.png
+            big: /assets/img/services/left.png
+        sponsors: 
+          - name: Statoil
+            logo: /assets/img/services/sponsors/statoil.png
+            link: http://www.statoil.com
+          - name: Biodiversity Institute
+            logo: /assets/img/services/sponsors/bioinst.jpg
+            link: http://www.biodiversity.ox.ac.uk
+          - name: Oxford e-Research Centre
+            logo: /assets/img/services/sponsors/oerc.png
+            link: http://www.oerc.ox.ac.uk
+          - name: University of Oxford
+            logo: /assets/img/services/sponsors/oxford.png
+            link: http://www.ox.ac.uk
+        mobile: 
+          - platform: android
+            url: mailto:neil.caithness@oerc.ox.ac.uk?subject=LEFT mobile app
+      - name: Land Cover Change
+        type: lcc
+        url: 
+        description: 
+          - short: This is the Land Cover Change service. More information to follow shortly!
+            long:
+        icon: 
+          - small: /assets/img/services/lcc.png
+            big: /assets/img/services/lcc.png
+        sponsors: 
+          - name: Oxford e-Research Centre
+            logo: /assets/img/services/sponsors/oerc.png
+            link: http://www.oerc.ox.ac.uk
+          - name: University of Oxford
+            logo: /assets/img/services/sponsors/oxford.png
+            link: http://www.ox.ac.uk
+      - name: Climate Data Extractor
+        type: cde
+        url: 
+        description:
+          - short: This is the Climate Data Extractor service. More information to follow shortly!
+            long:
+        icon:
+          - small: /assets/img/services/cde.png
+            big: /assets/img/services/cde.png
+        sponsors:
+          - name: Oxford e-Research Centre
+            logo: /assets/img/services/sponsors/oerc.png
+            link: http://www.oerc.ox.ac.uk
+          - name: University of Oxford
+            logo: /assets/img/services/sponsors/oxford.png
+            link: http://www.ox.ac.uk
+      - name: Species Distribution Modelling
+        type: sdm
+        url: 
+        description:
+          - short: This is the Species Distribution Modelling service. More information to follow shortly!
+            long:
+        icon:
+          - small: /assets/img/services/sdm.png
+            big: /assets/img/services/sdm.png
+        sponsors:
+          - name: Oxford e-Research Centre
+            logo: /assets/img/services/sponsors/oerc.png
+            link: http://www.oerc.ox.ac.uk
+          - name: University of Oxford
+            logo: /assets/img/services/sponsors/oxford.png
+            link: http://www.ox.ac.uk
+      - name: Biological Index Calculation Tool
+        type: bict
+        url: https://dl.dropboxusercontent.com/u/1057248/OBOE/BICT_Module.pdf
+        description: 
+          - short: This service calculates various biological indices frequently used in ecological, conservation and environmental health assessment studies.
+            long:
+        icon: 
+          - small: /assets/img/services/bict.png
+            big: /assets/img/services/bict.png
+        sponsors: 
+          - name: ViBRANT
+            logo: /assets/img/services/sponsors/vibrant.png
+            link: http://vbrant.eu
+  - name: Phylogenetics
+    jobs:
+      - name: Mr. Bayes
+        type: mrbayes
+        url: http://mrbayes.sourceforge.net
+        description: 
+          - short: Runs Mr. Bayes on the Oxford Supercomputing Cluster.
+            long:
+        icon: 
+          - small: /assets/img/services/mrbayes.png
+            big: /assets/img/services/mrbayes.png
+      - name: Beast
+        type: beast
+        url: http://beast.bio.ed.ac.uk
+        description: 
+          - short: Runs Beast on the Oxford Supercomputing Cluster.
+            long:
+        icon: 
+          - small: /assets/img/services/beast.png
+            big: /assets/img/services/beast.png
+  - name: Sequence Analysis
+    jobs:
+      - name: MUSCLE
+        type: muscle
+        url: http://www.drive5.com/muscle
+        description: 
+          - short: Performs multiple sequence alignment.
+            long:
+        icon: 
+          - small: /assets/img/services/muscle.png
+            big: /assets/img/services/muscle.png
+      - name: Msatfinder
+        type: msatfinder
+        url: http://web.archive.org/web/20071026090642/http://www.genomics.ceh.ac.uk/msatfinder/
+        description: 
+          - short: Microsatellite repeat finder
+            long: Msatfinder searches for short microsatellite repeats of 1-6 base pairs. This is a simplified version; for full capabilities it can be run locally.
+        icon: 
+          - small: /assets/img/services/msatminer.png
+            big: /assets/img/services/msatminer.png
+        sponsors: 
+          - name: Oxford e-Research Centre
+            logo: /assets/img/services/sponsors/oerc.png
+            link: http://www.oerc.ox.ac.uk
+  - name: Taxonomy
+    jobs:
+      - name: IKeyPlus
+        type: identkey
+        url: http://www.identificationkey.fr
+        description: 
+          - short: Creates an identification key from SDD files.
+            long:
+        icon: 
+          - small: /assets/img/services/identkey.png
+            big: /assets/img/services/identkey.png
+        sponsors: 
+          - name: LIS
+            logo: /assets/img/services/sponsors/lis.gif
+            link: http://www.infosyslab.fr/lis
+          - name: ViBRANT
+            logo: /assets/img/services/sponsors/vibrant.png
+            link: http://vbrant.eu
+      - name: Golden Gate
+        type: ggws
+        url: http://idaho.ipd.uni-karlsruhe.de/GoldenGATE/
+        description: 
+          - short: Tagging and normalising of data
+            long: Golden Gate offers various web services to parse bibliographic references, dates, coordinates and quantities.
+        icon: 
+          - small: /assets/img/services/golden_gate.png
+            big: /assets/img/services/golden_gate.png
+        sponsors: 
+          - name: ViBRANT
+            logo: /assets/img/services/sponsors/vibrant.png
+            link: http://vbrant.eu
+  - name: Miscellaneous
+    jobs:
+      - name: DURDEN
+        type: durden
+        url: https://git.scratchpads.eu/v/durden.git
+        description: 
+          - short: Produces tiles for large images.
+            long: Durden will take a large image, and create the tiles necessary for the image to be viewed using various client software such as the Bigimage Google map image viewer.
+        icon: 
+          - small: /assets/img/services/durden.png
+            big: /assets/img/services/durden.png
+        sponsors: 
+          - name: ViBRANT
+            logo: /assets/img/services/sponsors/vibrant.png
+            link: http://vbrant.eu
+      - name: ZooQuery
+        type: zooquery
+        url: https://www.zooniverse.org/project/planethunters
+        description: 
+          - short: Anonymised studies on Zooniverse projects
+            long: ZooQuery is an alpha-quality service which will eventually allow researchers to investigate anonymised data about zooniverse project users.
+        icon: 
+          - small: /assets/img/services/zooquery.png
+            big: /assets/img/services/zooquery.png
+        sponsors: 
+          - name: Oxford e-Research Centre
+            logo: /assets/img/services/sponsors/oerc.png
+            link: http://www.oerc.ox.ac.uk
+

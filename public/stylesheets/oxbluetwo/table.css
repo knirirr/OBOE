@@ -1,0 +1,26 @@
+.ListLine0      {
+  background: #e0f8f8;
+  font-size: 12px;
+  font-family: verdana, arial, helvetica, sans-serif;
+  text-align: left;
+  text-decoration: none;
+
+}
+
+.ListLine1      {
+  background: #f8b0f8;
+  font-size: 12px;
+  font-family: verdana, arial, helvetica, sans-serif;
+  text-align: left;
+  text-decoration: none;
+
+}
+
+.th {
+  font-color: #002147;
+}
+
+table.Joblist {
+  border-spacing: 2px;
+  width:100%;
+}

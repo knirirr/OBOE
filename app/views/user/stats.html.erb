@@ -1,0 +1,22 @@
+<div class="oboe-services-header"><span class="content-section  job-section"><span class="header-text">Job status</span></span></div>
+
+
+<table class="table table-condensed" cellpadding="2">
+  <tr valign="top" class="ListLine0">
+    <th>Job</th>
+    <th>Current</th>
+    <th>Total run</th>
+  </tr>
+
+  <% 
+    odd_or_even = 0
+    @output.each do |k,v| 
+      odd_or_even = 1 - odd_or_even
+  %>
+  <tr valign="top" class="ListLine<%= odd_or_even -%>">
+    <td><%= k %></td>
+    <td><span class="badge badge-info"><%= Job.all(:type => Job.types[k]).size %></span></td>
+    <td><span class="badge badge-info"><%= v %></span></td>
+  </tr>
+<% end %>
+</table>

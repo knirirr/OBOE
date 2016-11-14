@@ -1,0 +1,15 @@
+<h1><%= @title -%> - <%= @type -%></h1>
+
+<%= @text.html_safe -%>
+
+<% if session[:type] == 'newleft' -%>
+  <%= render 'form_left' %>
+<% else -%>
+  <%= render "form_#{session[:type]}" %>
+<% end -%>
+
+
+<% unless @style == 'newleft' -%>
+<%= link_to 'Show', @job %> |
+<%= link_to 'Back', jobs_path %>
+<% end -%>

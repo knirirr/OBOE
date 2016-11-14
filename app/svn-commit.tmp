@@ -1,0 +1,6 @@
+E-mail when new user created.
+--This line, and those below, will be ignored--
+
+M    models/user.rb
+M    mailers/user_mailer.rb
+A    views/user_mailer/new_user.text.erb

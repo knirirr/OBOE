@@ -1,0 +1,49 @@
+<div class="oboe-services-header"><span class="content-section analyses-section"><span class="header-text">Listing analyses</span></span></div>
+
+<table class="table table-condensed" cellpadding="2">
+  <tr valign="top">
+    <th>Analysis ID</th>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Type</th>
+    <th>Public</th>
+    <th>Status</th>
+    <th>Created</th>
+  </tr>
+
+  <% 
+    odd_or_even = 0
+    @jobs.each do |job| 
+      odd_or_even = 1 - odd_or_even
+  %>
+  <tr valign="top" class="ListLine<%= odd_or_even -%>">
+    <td><%= link_to "#{job.id}", job %></td>
+    <td><%= job.job_name %></td>
+    <td><%= job.job_description %></td>
+    <td><%= Job.types.invert[job.type] %></td>
+    <td><% if job.public == true -%>yes<% end -%></td>
+    <% if job.status == 'finished' -%>
+      <td><span class="label label-success"><%= job.status %></span></td>
+    <% elsif job.status == 'error' -%>
+      <td><span class="label label-error"><%= job.status %></span></td>
+    <% else -%>
+      <td><span class="label label-other"><%= job.status %></span></td>
+    <% end -%>
+    <td><%= job.created_at %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= will_paginate @jobs -%>
+<br><%= page_entries_info @jobs -%>
+
+<p>To create a new job, select from the options below. <%= @apologies -%>
+</p>
+
+<%= form_tag :controller => 'jobs', :action => 'new' do %>  
+
+ <%= select_tag :type, options_for_select(@selectopts) -%>
+<%= submit_tag "New analysis" %>
+<% end %>
+
+</p>

@@ -1,0 +1,9 @@
+access_key_id: AKIAJZWRAMJ3ZIFAANRQ
+secret_access_key: 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
+host: psql-test.chrs9iawmdss.us-east-1.rds.amazonaws.com
+port: 5432
+dbname: test
+user: test_user
+password: W1bbl3s!
+ro_user: sociam
+ro_password: w4ffl3inG

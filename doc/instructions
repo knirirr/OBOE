@@ -1,0 +1,90 @@
+*** Instructions ***
+
+Last updated: Tue Nov  8 09:42:12 GMT 2011
+
+Requests should be sent  as json to various URLs on the site to create or update
+jobs, and various URLs can be accessed to get information. There's also 
+a web interface. The base URL is https://oboe.oerc.ox.ac.uk, but all
+requests are re-directed to port 443 anyway.
+
+An example of some of the available URLs is below.
+
+/routes => list all available URLs.
+/docs => show this information.
+/information => a brief summary of what each job does
+/parameters/:type => input parameters for a job (json)
+/jobs.json => show all available jobs.
+/download/:id => download output for a job
+/download/infile/:id => download input file for a job
+/delete/:id.json => delete a job
+/jobs/:id.json => show job status
+/jobs/search.json => see searching, below
+/types => show available job types (json)
+/parameters/:type => show the parameters for a particular job type (json)
+
+...more are available in the routes output, which will show whether they are to be POST, GET &c.
+
+** Types **
+
+When the parameters of a job type are queried, they will fall into various classes, viz.
+
+name: A human-friendly name for this parameter.
+description: Some text that you might be able to display on a web form.
+format: Something that hopefully describes what has to go in to this parameter.
+required: If the user must supply this it is 'yes', otherwise 'no'.
+hidden: Hidden ('yes') parameters are something the user doesn't need to see, e.g. the OSC job ID.
+
+N.B. The LEFT job has a simplified interface which can be turned on for users who have trouble using a Google map; the hidden parameters refer to this.
+
+The infile is handled differently (see the example POST, below).
+
+
+** Authentication **
+
+If posting JSON then it is necessary to also post an auth_token, as shown below. Only certain
+users are allowed to have one, and they may view (and change) it on the web interface. The
+link to the "show token" page will appear when logged in. The auth_token can be obtained by posting to https://oboe.oerc.ox.ac.uk/tokens.json with values of email and password, i.e.
+
+{:email => "your_email_address", :password => "your_password"}
+
+** Examples **
+
+These examples use the Ruby Rest::Client gem; other languages should follow the same principles. 
+
+* New job *
+
+response = RestClient.post 'http://oboe.oerc.ox.ac.uk/jobs.json',  :job => {:job_name => "Test post", :job_description => "Testing the API", :infile => File.new("/tmp/test.txt", 'rb'), :type => 'test', :parameters => {:test => "A test string"}}, :auth_token => 'weafliejalfies'
+puts response.to_str
+
+The response.to_str will return the json job object, so that the creating application will know the job's ID. This ID is used when checking the job's status, downloading its output, and so on. In the example below the ID from the job above is: 4e09b48e35d3102a7d000371.
+
+* Updating a job *
+
+response = RestClient.put 'http://oboe.oerc.ox.ac.uk/jobs/4e09b48e35d3102a7d000371.json',  :job => {:parameters => {:test => "A longer test string"}}, :auth_token => 'weafliejalfies' 
+
+* Making a job public *
+
+If the parameter :public => "1" is sent then the job will be set as public, e.g.
+
+response = RestClient.post 'http://oboe.oerc.ox.ac.uk/jobs.json',  :job => {:job_name => "Test post", :job_description => "Testing the API", :infile => File.new("/tmp/test.txt", 'rb'), :type => 'test', :public => "1", :parameters => {:test => "A test string"}}, :auth_token => 'weafliejalfies'
+
+** Parameters **
+
+Parameters for a job are stored in a hash by the name of "parameters". Different jobs require different values here, which can be determined by querying http://oboe.oerc.ox.ac.uk/parameters/:job_type. A json object containing the internal name of the parameter and a brief description will be returned.
+
+** Searching **
+
+To search for jobs, post to /jobs/search.json with the auth_token. One can specify various parameters in the post request which will limit the search, e.g.
+
+{:status=>"finished", :type=>"mrbayes", :user_id=>"scratchpad_user_id"}
+
+These are optional, and without any being supplied the search will return all jobs belonging to that user, as will a GET to /jobs/search. 
+
+
+** Notes **
+
+Input files can be posted by using a mulitpart post or the url of a file can be
+set as the "inputurl" parameter; in the latter case the system will download
+the file from the supplied URL before processing.
+
+Timestamps will be updated automatically when jobs are created or modified.

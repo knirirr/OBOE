@@ -1,0 +1,36 @@
+(in /home/milo/Work/Web/vibrant)
+[warning] tried to patch Rails without Rails being loaded
+Initiating a ReplSetConnection with seeds passed as individual [host, port] array arguments is deprecated.
+Please specify hosts as an array of 'host:port' strings; the old format will be removed in v2.0
+Loaded suite /usr/local/rvm/gems/ruby-1.9.2-head@oboe/gems/rake-0.9.2.2/lib/rake/rake_test_loader
+Started
+..F.............
+Finished in 4.346050 seconds.
+
+  1) Failure:
+test_read_hosts_files(AccountTest) [/home/milo/Work/Web/vibrant/test/unit/account_test.rb:30]:
+<true> expected but was
+<false>.
+
+16 tests, 78 assertions, 1 failures, 0 errors, 0 skips
+
+Test run options: --seed 5585
+Initiating a ReplSetConnection with seeds passed as individual [host, port] array arguments is deprecated.
+Please specify hosts as an array of 'host:port' strings; the old format will be removed in v2.0
+Loaded suite /usr/local/rvm/gems/ruby-1.9.2-head@oboe/gems/rake-0.9.2.2/lib/rake/rake_test_loader
+Started
+.............F........F
+Finished in 9.078012 seconds.
+
+  1) Failure:
+test_fail_to_view_private_job(JobsControllerTest) [/home/milo/Work/Web/vibrant/test/functional/jobs_controller_test.rb:77]:
+Expected at least 1 element matching "You need to sign in", found 0.
+
+  2) Failure:
+test_view_public_job(JobsControllerTest) [/home/milo/Work/Web/vibrant/test/functional/jobs_controller_test.rb:85]:
+Expected response to be a <:success>, but was <302>
+
+23 tests, 31 assertions, 2 failures, 0 errors, 0 skips
+
+Test run options: --seed 57123
+Errors running test:units, test:functionals!

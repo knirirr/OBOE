@@ -1,0 +1,50 @@
+<p>A One Click Phylogeny (OCP) analysis requires only a fasta file of sequences meeting the following requirements:
+<ul>
+  <li>Maximum number of sequences is 200 for proteins and 200 for nucleic acids.
+  <li>Maximum length of sequences is 2000 for proteins and 6000 for nucleic acids.
+</ul>
+
+<p>The analysis service is provided by <a href="http://www.phylogeny.fr/version2_cgi/index.cgi">phylogeny.fr</a> and must be cited as described on their site. N.B. this is a proof-of-concept service only, run without the express permission of phylogeny.fr, and may disappear or change at any time. 
+
+
+  <%= form_for(@job, :html => { :multipart => true, :id => 'job_form'}) do |f| %>
+  <% if @job.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@job.errors.count, "error") %> prohibited this job from being saved:</h2>
+
+      <ul>
+      <% @job.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.text_field :job_name, :value => @job.job_name || ""  -%>  
+    <%= f.label 'Title' %>
+  </div>  
+  <div class="field">    
+    <%= f.text_field :job_description, :value => @job.job_description || "" -%>
+    <%= f.label 'Description' %>
+  </div>
+  <div class="field">
+    <%= f.label :public %><br />
+    <%= f.check_box :public %>
+  </div>
+
+  <br><b>Sequence file (FASTA, NEXUS or EMBL format)</b><br>
+  <div class="field">
+    <%= f.file_field :infile -%>
+  </div>
+
+
+  <br>Click the button below to submit the values for your analysis:
+  <div class="actions">
+    <%= f.submit "Submit"%>
+  </div>
+
+<% end %>
+
+<p>For more information about public and private jobs, please refer to the <a href="/faq#private">FAQ</a>.</p>
+

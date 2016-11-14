@@ -1,0 +1,25 @@
+# this file was created so the unit tests work
+# it has been hidden on Fri Jan 11 11:30:56 GMT 2013
+# so that this bug does not bite:
+# https://jira.mongodb.org/browse/RUBY-527
+defaults: &defaults
+  username: vibrant
+  password: poxoneu
+  hosts:
+    - 172.24.13.83:27017
+    - 172.24.13.82:27017
+    - 172.24.13.81:27017
+    - 172.24.13.84:27017
+
+development:
+  <<: *defaults
+  database: vibrant_development
+
+test:
+  <<: *defaults
+  database: vibrant_test
+
+# set these environment variables on your prod server
+production:
+  <<: *defaults
+  database: vibrant

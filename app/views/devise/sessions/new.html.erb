@@ -1,0 +1,23 @@
+<div id="login" class="login_form">
+<div class="oboe-services-header"><span class="content-section login-section"><span class="header-text">Sign in</span></span>
+</div>
+
+<%= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => 'formbody'}) do |f| %>
+  <div><%= f.label :email %><br />
+  <%= f.email_field :email, :class => 'text form-text', :size => 30 %></div>
+
+  <div><%= f.label :password %><br />
+    <%= f.password_field :password, :class => 'text form-text', :size => 30 %></div>
+
+  <% if devise_mapping.rememberable? -%>
+    <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
+  <% end -%>
+
+  <div><%= f.submit "Sign in" %></div>
+<% end %>
+
+<div class="login-additional">
+<%= render :partial => "devise/shared/links" %>
+</div>
+
+</div>

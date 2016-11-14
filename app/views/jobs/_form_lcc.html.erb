@@ -1,0 +1,84 @@
+<p>An Land Use Change analysis requires only the entry of a rectangle to specify the study area.<ul>
+  <li>&ndash; Use the controls at the top of the map to select whether to move the map or draw a rectangle. Or instead, enter coordinates in the four text boxes.</li>
+  <li>&ndash; The rectangle's position may be adjusted once it has been drawn, either by dragging its edges or editing the text in the boxes. </li>
+  <li>&ndash; Finally, enter a title and description and click the submit button to run your analysis. You will be sent an email when the job is complete.</li>
+</ul>
+
+<%= jobstatus('lcc') -%>
+
+<% unless action_name == 'edit' -%>
+  <div class="formbody">
+    <label for="address">Search</label>
+    <input id="address" class="text form-text" name="address" size="30" value="">
+  </div>
+<% end -%>
+
+<div id="map">
+</div>
+
+<div id="side">
+  <input onclick="deleteOverlays();" type=button value="Reset Map"/>
+</div>
+
+<div id="coords">
+  <div class="north-south">
+    <input id ="north" class="text form-text" name="north" size="12" value="" placeholder="North"/>
+  </div>
+
+  <div class="east-west">
+    <input id="west" class="text form-text" name="west" size="12" value="" placeholder="West"/>
+    <input id="east" class="text form-text" name="east" size="12" value="" placeholder="East"/>
+  </div>
+
+  <div class="north-south">
+    <input id="south" class="text form-text" name="south" size="12" value="" placeholder="South"/>
+  </div>
+</div>
+
+
+<div id="params">
+  <%= form_for(@job, :html => { :multipart => true, :id => 'job_form'}) do |f| %>
+  <% if @job.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@job.errors.count, "error") %> prohibited this job from being saved:</h2>
+
+      <ul>
+      <% @job.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+  <div class="field">
+    <%= f.text_field :job_name, :value => @job.job_name || ""  -%>  
+    <%= f.label 'Title' %>
+  </div>  
+  <div class="field">    
+    <%= f.text_field :job_description, :value => @job.job_description || "" -%>
+    <%= f.label 'Description' %>
+  </div>
+  <div class="field">
+    <%= f.label :public %><br />
+    <%= f.check_box :public %>
+  </div>
+
+  <%= f.fields_for :parameters do |p| %>
+  <!-- <br><b>Coordinates (selected from map)</b><br> -->
+  <div class="field" >
+    <%= p.text_area :coords,  :value => @job.parameters['coords'],  :style => "display:none;"-%>
+  </div>
+  <% end -%>
+
+
+  <br>Click the button below to submit the values for your analysis:
+  <div class="actions">
+    <%= f.submit "Submit"%>
+  </div>
+
+
+<% end %>
+</div>
+<p>For more information about public and private jobs, please refer to the <a href="/faq#private">FAQ</a>.</p>
+

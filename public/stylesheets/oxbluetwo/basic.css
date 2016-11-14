@@ -1,0 +1,126 @@
+
+
+
+
+
+
+
+
+
+/*
+This stylesheet establishes some basic style rules that will be applicable most of the time.
+
+For styles controlling the layout of the page, see layout.css
+
+for styles controlling the general aesthetics of the site, see lookandsfeel.css
+
+*/
+
+body{
+
+font-family: Helvetica, Verdana, Arial, sans-serif;
+font-size: 0.84em;
+background-color: #fff;
+color: #000;
+
+}
+
+h1, h2, h3, h4, h5, h6
+{
+font-family: lucida grande;
+font-weight: bold;
+font-style: normal;
+letter-spacing: 0.2em;
+color: #333;
+}
+
+h1
+{
+text-align: center;
+font-size: 1.6em;
+
+}
+
+h2
+{
+font-size: 1.3em;
+}
+
+h3
+{
+font-size: 1.2em;
+}
+
+h4
+{
+font-size: 1em;
+}
+
+h5
+{
+font-size: 0.85em;
+}
+
+h6
+{
+margin: 0px;
+margin-bottom: 0.2em;
+padding: 0px;
+font-size: 0.9em;
+font-weight: normal;
+font-style: italic;
+}
+
+
+/* link styling */
+
+a{
+color: #002147;
+}
+
+a:link{
+color: #002147;
+}
+
+a:active{
+color: #42adf8;
+}
+
+a:visited{
+color: #455967;
+}
+
+a:hover, a:focus{
+color: #0496fc;
+}
+
+
+
+
+p
+{
+padding-bottom: 1em;
+line-height: 1.3em;
+}
+
+/* avoid annoying borders on linked images*/
+a img
+{
+border: none;
+
+}
+/* a class style for highlighting  names in your text*/ 
+span.name
+{
+
+font-weight: bold;
+
+}
+
+
+li
+{
+padding: 0.5em;
+line-height: 1em;
+}
+

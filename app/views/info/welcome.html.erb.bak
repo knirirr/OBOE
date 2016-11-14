@@ -1,0 +1,20 @@
+<h1>Welcome to OBOE</h1>
+
+<p>The acronym for this service is derived from the phrase <b>Oxford Batch Operation Engine</b>. Its purpose is to run analyses that might normally be performed by a self-contained command-line application and to make them available via the web. It is currently under heavy development so this page may change (including the name).
+
+<p>Services include: 
+
+<ul>
+  <li>The <%= link_to 'Local Ecological Footprint Tool', :controller => 'info', :action => 'welcome_left' -%> &mdash; a prototype service is now live.
+  <li>A <a href="http://vbrant.eu">ViBRANT</a>-funded job-processing backend for <a href="http://scratchpads.eu">Scratchpads</a> &mdash; awaiting services.
+  <li>Various other services to be added later.
+</ul>
+
+<p>This site is currently open to anyone who <%= link_to "registers", :controller => 'devise/registrations', :action => 'new' -%>, but as development progresses then specific analyses will be developed for specific users. More information will appear on this page as we continue to work on the site.
+
+<p>If you have an account then you may view your jobs <%= link_to "here", jobs_path -%>. 
+
+<br>
+<center>
+  <a href="http://www.mongodb.org/" border="0" target="_blank"><img src="/images/blue.png"></a>
+</center>

@@ -1,0 +1,94 @@
+<div id="params">
+  <%= form_for(@job, :html => { :multipart => true, :id => 'job_form'}) do |f| %>
+  <% if @job.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@job.errors.count, "error") %> prohibited this job from being saved:</h2>
+
+      <ul>
+      <% @job.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.text_field :job_name, :value => @job.job_name || ""  -%>  
+    <%= f.label 'Title' %>
+  </div>  
+  <div class="field">    
+    <%= f.text_field :job_description, :value => @job.job_description || "" -%>
+    <%= f.label 'Description' %>
+  </div>
+  <!--
+  <div class="field">    
+    <%= f.text_field :inputurl, :value => @job.inputurl || "" -%>
+    <%= f.label 'Input file URL' %>
+  </div>
+  -->
+  <div class="field"> 
+    <%= f.label :infile %><br />
+    <%= f.file_field :infile %> 
+  </div>
+  <div class="field">
+    <%= f.label :public %><br />
+    <%= f.check_box :public %>
+  </div>
+
+  <%= f.fields_for :parameters do |p| %>
+
+    <div class="field">    
+      <%= p.label "Engine" %><br />    
+      <%= p.select :engine, options_for_select([["Regexp", "regexp"], ["Multipass", "multipass"],["Iterative", "iterative"]])%>
+    </div>
+
+    <div class="field">    
+      <%= p.label "Flank size" %><br />    
+      <%= p.text_field :flank_size, :value => @job.parameters['flank_size'] || 300 -%>  
+    </div>
+    <div class="field">    
+      <%= p.label "Repeat 1 threshold" %><br />    
+      <%= p.text_field :r_1_th, :value => @job.parameters['r_1_th'] || 12 -%>  
+    </div>
+    <div class="field">    
+      <%= p.label "Repeat 2 threshold" %><br />    
+      <%= p.text_field :r_2_th, :value => @job.parameters['r_2_th'] || 8 -%>  
+    </div>
+    <div class="field">    
+      <%= p.label "Repeat 3 threshold" %><br />    
+      <%= p.text_field :r_3_th, :value => @job.parameters['r_3_th'] || 5 -%>  
+    </div>
+    <div class="field">    
+      <%= p.label "Repeat 4 threshold" %><br />    
+      <%= p.text_field :r_4_th, :value => @job.parameters['r_4_th'] || 5 -%>  
+    </div>
+    <div class="field">    
+      <%= p.label "Repeat 5 threshold" %><br />    
+      <%= p.text_field :r_5_th, :value => @job.parameters['r_5_th'] || 5 -%>  
+    </div>
+    <div class="field">    
+      <%= p.label "Repeat 6 threshold" %><br />    
+      <%= p.text_field :r_6_th, :value => @job.parameters['r_6_th'] || 5 -%>  
+    </div>
+    <div class="field">    
+      <%= p.label "Minimum PCR product size" %><br />    
+      <%= p.text_field :min_prod, :value => @job.parameters['min_prod'] || 150 -%>  
+    </div>
+    <div class="field">    
+      <%= p.label "Maximum PCR product size" %><br />    
+      <%= p.text_field :max_prod, :value => @job.parameters['max_prod'] || 350 -%>  
+    </div>
+
+
+  <% end -%>  
+
+  <br>Click the button below to submit the values for your analysis:
+  <div class="actions">
+    <%= f.submit "Submit"%>
+  </div>
+<% end %>
+<p>To download the Msatfinder source code, click <a href="/downloads/msatfinder-latest.tar.gz">here</a>. Citation information can be found <a href="http://scholar.google.com/scholar?hl=en&as_sdt=0,5&cluster=9800696950245702728">here</a>.
+<p>For more information about public and private jobs, please refer to the <a href="/faq#private">FAQ</a>.</p>
+</div>
+
+

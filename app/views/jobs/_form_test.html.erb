@@ -1,0 +1,40 @@
+<%= form_for(@job, :html => { :multipart => true}) do |f| %>
+  <% if @job.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@job.errors.count, "error") %> prohibited this job from being saved:</h2>
+
+      <ul>
+      <% @job.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.label 'Title' %><br />
+    <%= f.text_field :job_name %>
+  </div>
+  <div class="field">
+    <%= f.label :job_description %><br />
+    <%= f.text_field :job_description %>
+  </div>
+  <%= f.fields_for :parameters do |p| %>
+  <div class="field">    
+    <%= p.label "Test field" %><br />    
+    <%= p.text_field :test, :value => @job.parameters['test'] -%>  
+  </div>
+  <% end -%>
+  <div class="field">
+    <%= f.label :public %><br />
+    <%= f.check_box :public %>
+  </div>
+  <div class="field">
+    <%= f.label :infile %><br />
+    <%= f.file_field :infile %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+<p>For more information about public and private jobs, please refer to the <a href="/faq#private">FAQ</a>.</p>

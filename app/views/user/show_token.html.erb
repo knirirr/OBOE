@@ -1,0 +1,11 @@
+<h1>Authentication token</h1>
+
+<p>Your account has an authentication token, the purpose of which is to allow access for servers via the API described in the <%= link_to 'documentation', :controller => 'info', :action => 'docs' -%>. The value of the token is shown below. 
+
+<pre>
+<%= current_user.authentication_token -%>
+</pre>
+
+<p>To change the token value, click <%= link_to 'here', :controller => 'user', :action => 'change_token' -%>.
+
+<p>Or, you may Return to the <%= link_to "job listing", jobs_path -%>. 

@@ -1,0 +1,72 @@
+<!DOCTYPE  html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-gb">
+
+<head>
+  <title>OeRC Batch Operation Engine</title>
+  <meta name="keywords" content="Vibrant,OeRC" />
+  <%= stylesheet_link_tag "oxbluetwo/basic" , :media => 'all'%>
+  <%= stylesheet_link_tag "oxbluetwo/layout", :media => 'screen,projection' %>
+  <%= stylesheet_link_tag "oxbluetwo/lookandfeel", :media => 'screen,projection' %>
+  <%= stylesheet_link_tag "oxbluetwo/mainnav", :media => 'screen,projection' %>
+  <%= stylesheet_link_tag "oxbluetwo/print", :media => 'print' %>
+  <%= stylesheet_link_tag "oxbluetwo/table", :media => 'screen,projection' %>
+  <%= stylesheet_link_tag "oxbluetwo/custom", :media => 'screen,projection' %>
+  <%= stylesheet_link_tag "jquery-ui-timepicker-addon.css" %>
+  <%= stylesheet_link_tag "jquery-ui.css" %>
+  <%= javascript_include_tag :defaults -%>
+  <%= csrf_meta_tag %>
+  <%= gmaps_header(@headers).html_safe -%>
+</head>
+<body>
+
+<div id="all">
+
+<div id="header">
+</div> <!-- header div -->
+
+<div id="content">
+
+<% if flash[:notice] -%>
+<p id="notice"><%= notice %></p>
+<% end -%>
+<% if flash[:alert] -%>
+<p id="alert"><%= alert %></p>
+<% end -%>
+
+<%= yield %>
+
+</div> <!-- content div -->
+
+<div id="mainnav">
+
+<ul class="hmenu">
+<li><%= link_to 'Home',  :controller => '/info', :action => 'welcome'  -%></li>
+<li><%= link_to 'My analyses', :controller => '/jobs', :action => 'index' -%></li>
+<%= render 'devise/menu/registration_items' -%>
+<%= render 'devise/menu/login_items' -%>
+<% if current_user.try(:admin?) -%>
+  <li><%= link_to 'Jobs', show_all_path -%></li>
+  <li><%= link_to 'Users', :controller => 'user', :action => 'list_users' -%></li>
+  <li><%= link_to 'Stats', :controller => 'user', :action => 'stats' -%></li>
+  <li><%= link_to 'Accounts', :controller => 'accounts', :action => 'index' -%></li>
+<% end -%>
+<% if current_user -%>
+<% if current_user.allowed?(current_user.email) -%>
+  <li><%= link_to 'Show token', :controller => '/user', :action => 'show_token' -%></li>
+<% end -%>
+<% end -%>
+
+</ul>
+
+</div> <!-- mainnav div -->
+
+<div id="footer">
+  &copy;  University of Oxford 2011
+  <a id="vibrant-logo" href="http://vbrant.eu" title="ViBRANT Homepage"><img  alt ="ViBRANT Logo" src="/images/acquia_prosper_logo.png" /></a>
+</div> 
+  <!-- footer div ends -->
+</div> <!-- all div ends -->
+
+
+</body>
+</html>

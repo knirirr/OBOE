@@ -1,0 +1,6 @@
+<p>Welcome <%= @resource.email %>!</p>
+
+<p>Thank you for registering for an account on <a href="http://oboe.oerc.ox.ac.uk">OBOE</a> - the Oxford Batch Operation Engine.
+<p>Please confirm your account by clicking the link below:</p>
+
+<p><%= link_to 'Confirm', confirmation_url(@resource, :confirmation_token => @resource.confirmation_token) %></p>

@@ -1,0 +1,63 @@
+<div id="params">
+  <%= form_for(@job, :html => { :multipart => true, :id => 'job_form'}) do |f| %>
+  <% if @job.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@job.errors.count, "error") %> prohibited this job from being saved:</h2>
+
+      <ul>
+      <% @job.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% @services = Job.form_parameters('ggws') -%>
+
+  <div class="field">
+    <%= f.text_field :job_name, :value => @job.job_name || ""  -%>  
+    <%= f.label 'Title' %>
+  </div>  
+  <div class="field">    
+    <%= f.text_field :job_description, :value => @job.job_description || "" -%>
+    <%= f.label 'Description' %>
+  </div>
+  <div class="field">
+    <%= f.label :public %><br />
+    <%= f.check_box :public %>
+  </div>
+  <!--
+  <div class="field"> 
+    <%= f.label :infile %><br />
+    <%= f.file_field :infile %> 
+  </div>
+  -->
+
+  <%= f.fields_for :parameters do |p| %>
+    <p><%= p.text_area :data -%>
+ 
+    <p><%= p.label 'Function' -%>
+    <%= p.select :functionName, options_for_select(Job.servicetypes('ggws',@services).invert) -%>
+
+    <p><%= p.label 'Input format' -%>
+    <%= p.select :dataFormat, options_for_select(Job.serviceinputtypes('ggws','inputFormat',@services).invert) -%>
+
+    <p><%= p.label 'Output format' -%>
+    <%= p.select :outputFormat, options_for_select(Job.serviceinputtypes('ggws','outputFormat',@services).invert) -%>
+
+    <p><%= p.label 'Interactive' -%>
+    <%= p.select :INTERACTIVE, options_for_select({'No' => 'no'}) -%>
+
+  
+  <% end -%>  
+
+  <br>Click the button below to submit the values for your analysis:
+  <div class="actions">
+    <%= f.submit "Submit"%>
+  </div>
+
+<% end %>
+<p>For more information about public and private jobs, please refer to the <a href="/faq#private">FAQ</a>.</p>
+</div>
+
+

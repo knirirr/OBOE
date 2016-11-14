@@ -1,0 +1,21 @@
+Create:
+
+curl -i -X POST -H 'Content-Type: application/json' -H 'Accept: application/json' -d '{"job":{"inputurl":"http://input/1","type":"test","email":"milo.thurston@oerc.ox.ac.uk"},"auth_token":"6NS0vizzXAXmG-f0FGg3"}' http://bonnacon.oerc.ox.ac.uk:3000/jobs.json 
+
+
+curl -i -X POST -H 'Content-Type: application/json' -H 'Accept: application/json' -d '{"job":{"inputurl":"http://download.cpdn.org/cpdndownload_mac","type":"test","email":"milo.thurston@oerc.ox.ac.uk"},"auth_token":"6NS0vizzXAXmG-f0FGg3"}' http://bonnacon.oerc.ox.ac.uk:3000/jobs.json 
+
+
+N.B. for create; can't post uploaded file via json; this will have to be grabbed from the server using the inputurl function. 
+
+Delete:
+
+curl -i -X DELETE -H 'Content-Type: application/json' -H 'Accept: application/json' http://bonnacon.oerc.ox.ac.uk:3000/jobs/4d2325fd35d31015fa000001.json
+
+Update:
+
+curl -i -X PUT -H 'Content-Type: application/json' -H 'Accept: application/json' -d '{"job":{"user":"new_user"}}' http://bonnacon.oerc.ox.ac.uk:3000/jobs/4d27036135d3101c68000001.json 
+
+Search:
+
+curl --insecure -i -X POST -H 'Content-Type: application/json' -H 'Accept: application/json' -d '{"auth_token":"6NS0vizzXAXmG-f0FGg3","status":"new","type":"test"}' http://bonnacon.oerc.ox.ac.uk:3000/search.json 

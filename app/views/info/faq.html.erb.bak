@@ -1,0 +1,15 @@
+<div class="oboe-services-header"><span class="content-section analyses-section"><span class="header-text">Frequently Asked Questions</span></span></div><br/>
+
+
+<h2>What is OBOE?</h2>
+<p class="normal-content">OBOE was originally designed as a REST back-end for <a href="http://scratchpads.eu/" target="_blank">Scratchpads</a>, to allow Scratchpad users to submit analyses whilst presenting Scratchpad developers with a single API. It has since expanded to allow web-based access to other services which aren't avaialable elsewhere, such as <a href="https://oboe.oerc.ox.ac.uk" target="_blank">LEFT</a>.</p>
+
+<hr/>
+
+<h2>Can anyone use OBOE?</h2>
+<p class="normal-content">In theory they can, but some services are restricted to members of certain institutions, or to those paying a subscription. Restricted services include (but aren't limited to) the <a href="https://oboe.oerc.ox.ac.uk" target="_blank">LEFT</a> service and services provided by the <a href="http://www.osc.ox.ac.uk/" target="_blank">Oxford Supercomputing Centre</a>.</p>
+
+<hr/>
+
+<h2>How do I get an account?</h2>
+<p class="normal-content">Just <a href="https://oboe.oerc.ox.ac.uk/users/sign_up">request an account</a> on the website. This will be assigned to a default group with limited permissions, and re-assigned to an appropriate group (depending on your institution) by an OBOE administrator.</a>

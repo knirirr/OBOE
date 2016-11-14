@@ -1,0 +1,13 @@
+                          'description' => 'ID used by the OSC system to track this job.',
+                               'description' => 'URL for finished run on remote system.',
+  # BEAST may have different versions available on the OSC system
+      # a mere system call; set this up later
+      system("cd #{datadir} && #{executable} #{infile} 2> /dev/null && mv output #{self.id}.png")
+        system("sshfs -o nonempty,reconnect oboe@sal.osc.ox.ac.uk:#{remote_dir} #{local_dir}")
+        system("fusermount -u #{local_dir}")
+        system("fusermount -u #{local_dir}")
+      system("fusermount -u #{local_dir}")
+          system("sshfs -o nonempty,reconnect oboe@sal.osc.ox.ac.uk:#{remote_dir} #{local_dir}")
+          system("cd #{local_dir} && zip -r #{self.id}.zip #{self.id}") # needs testing again
+          system("fusermount -u #{local_dir}")
+        system("fusermount -u #{local_dir}")

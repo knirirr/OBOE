@@ -1,0 +1,19 @@
+<div id="login" class="login_form">
+
+<div class="oboe-services-header">
+<span class="content-section edit-user-section"><span class="header-text">Resend unlock instructions</span></span>
+</div>
+
+<%= form_for(resource, :as => resource_name, :url => unlock_path(resource_name), :html => { :method => :post, :class => 'formbody' }) do |f| %>
+  <%= devise_error_messages! %>
+
+  <div><%= f.label :email %><br />
+    <%= f.email_field :email, :class => 'text form-text', :size => 30 %></div>
+
+  <div><%= f.submit "Resend unlock instructions" %></div>
+<% end %>
+
+<div class="login-additional">
+<%= render :partial => "devise/shared/links" %>
+</div>
+</div>

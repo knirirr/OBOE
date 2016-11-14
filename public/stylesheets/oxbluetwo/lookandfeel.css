@@ -1,0 +1,352 @@
+
+
+
+
+
+
+/*
+
+
+
+This stylesheet should be used to implement the look and feel of your site. The styles for implementing the basic layout of elements within the page can be found in the layout.css file.
+
+
+
+this stylesheet expect the following divs to be present in the HTML, in the order specified:
+
+
+
+body
+
+	div#all
+
+
+
+		div#header
+
+		div#content
+
+		div#mainnav
+
+		div#sidebar
+
+		div#footer
+
+
+
+*/
+
+
+
+
+
+/* specify colours for all major areas of the page  */
+
+
+
+
+
+body
+
+{
+
+
+
+
+}
+
+
+
+div#all {
+
+	 background-color:#fff;
+
+
+
+}
+
+
+
+div#header
+
+{
+
+background:#ffffff url('/images/Top.jpg') no-repeat right bottom;
+}
+
+
+
+ div#mainnav
+
+ {
+
+
+
+ background-color:  #fff /* mainnav bg color */;
+
+
+
+ }
+
+ 
+
+
+
+
+
+/* HEADER STYLES  */
+
+/* styles for arranging the two images in the header */  
+
+div#header 
+
+{
+
+text-align: right;
+
+}
+
+
+
+
+
+img#logo
+{
+position: absolute;
+top: 0px;
+left: 0px;
+}
+
+img#bottom
+{
+position: absolute;
+bottom: 0px;
+right: 0px;
+padding: 0px;
+}
+
+a#oxcrest img
+
+{
+
+/* give some space around the oxford crest image*/
+
+//margin: 20px;
+position: absolute;
+top: 0px;
+right: 0px;
+
+
+
+/* give a margin-left equal to the width of the logo image, to stop the two overlapping on narrow screens*/
+
+margin-left: 420px;
+
+}
+
+
+
+
+
+/* FOOTER STYLES  */
+
+div#footer
+
+{
+
+
+
+/* centre-align the footer text, and make it a little smaller and paler than normal text  */
+
+text-align: center;
+font-size: 0.9em;
+color: #fff;
+padding-top: 70px;
+padding-bottom: 20px;
+margin: 0px;
+background:#ffffff url('/images/Bottom.jpg') no-repeat right bottom;
+}
+
+
+
+a#oxcrest img
+
+{
+
+/* give some space around the oxford crest image*/
+
+
+
+}
+
+
+
+
+
+
+
+/* INLINE CONTENT IMAGES  */
+
+
+
+/* often when you place images in the page as content, you want the surrounding textual content to wrap around it. If this is the case, give the img tag a class of 'inline' so that th styles below will be applied */
+
+
+
+.inline
+
+{
+
+border: 1px solid #000;
+
+float:left;
+
+margin-right: 7px;
+
+margin-bottom: 7px;
+
+}
+
+
+
+
+
+/* styling for code snippets divs */
+
+
+
+
+
+code{
+
+font-size: 1.3em;
+
+padding: 0.3em;
+
+}
+
+
+
+
+
+
+
+/*headline links  - styles for displaying links as a headline with associated image beneath*/
+
+
+
+
+
+a.headline-link
+
+{
+text-align: center;
+display: block;
+float: left;
+margin: 10px;
+font-family: lucida grande;
+font-style: normal;
+letter-spacing: 0.2em;
+width: 194px;
+background-color: #222; 
+border: 2px solid #222;
+color: #fff;
+padding: 3px;
+padding-bottom: 203px;
+text-decoration: none;
+
+
+}
+
+/*  change the background and border colour on mouseover or focus */
+a:hover.headline-link, a:focus.headline-link
+	{
+background-color: #000;
+border-color: #000;
+
+	}
+
+/* for every headline link, give it an id and then specify an appropriate image*/
+#headline-1
+{
+background-image: url('/images/chameleon.jpg');
+background-repeat: no-repeat;
+background-position: bottom left;
+}
+
+#headline-2
+{
+background-image: url('/images/flower.jpg');
+background-repeat: no-repeat;
+background-position: bottom left;
+}
+
+#headline-3
+{
+background-image: url('/images/chillies.jpg');
+background-repeat: no-repeat;
+background-position: bottom left; 
+}
+
+
+
+/* panels stuff */
+
+/*style a div with a border around it. Set padding to 0px so that the h2 contained within the div can appear flush to the border of the div */
+div.panel
+{
+
+background-color:white;
+padding: 0px;
+clear: both;
+border: 2px solid #999;
+margin: 1em;
+margin-top: 2.5em;
+
+}
+/* set the  border-bottom  of the  h2 within the panel div to be the same as the  border for the div 
+
+Set the background colour of the h2 to a dark colour that's similar to the div border colour, but a bit lighter 
+
+*/
+div.panel h2
+{
+border-bottom: 2px solid  #999;
+color: #fff;
+background-color:  #aaa;
+padding: 2px;
+margin: 0px;
+text-align: center;
+font-size: 1.1em;
+
+}
+
+/* add some margin to any element that's likely to appear in the panel div - this is done individually so that the h2 within the panel div remains flush to the border */
+div.panel p, div.panel img, div.panel h3, div.panel h4, div.panel table, div.panel ul, div.panel form, div.panel div
+{
+margin: 10px;
+
+}
+
+/*  a general class to apply to elemnts that you want to clear (for example, a paragrpah that ocurs before or after the floated headline links) */
+.clear
+{
+clear: both;
+}
+
+a#vibrant-logo img
+
+{
+
+/* give some space around the oxford crest image*/
+
+//margin: 20px;
+position: absolute;
+bottom: 0px;
+right: 0px;
+
+/* give a margin-left equal to the width of the logo image, to stop the two overlapping on narrow screens*/
+
+margin-left: 420px;
+
+}

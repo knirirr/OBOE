@@ -1,0 +1,61 @@
+<div id="params">
+  <%= form_for(@job, :html => { :multipart => true, :id => 'job_form'}) do |f| %>
+  <% if @job.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@job.errors.count, "error") %> prohibited this job from being saved:</h2>
+
+      <ul>
+      <% @job.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.text_field :job_name, :value => @job.job_name || ""  -%>  
+    <%= f.label 'Title' %>
+  </div>  
+  <div class="field">    
+    <%= f.text_field :job_description, :value => @job.job_description || "" -%>
+    <%= f.label 'Description' %>
+  </div>
+  <div class="field"> 
+    <%= f.label :infile %><br />
+    <%= f.file_field :infile %> 
+  </div>
+  <div class="field">
+    <%= f.label :public %><br />
+    <%= f.check_box :public %>
+  </div>
+
+  <%= f.fields_for :parameters do |p| %>
+  <% Job.form_parameters('muscle').each do |param| -%>
+    <br><%= param['name'][0] -%><br>
+  <div class="field">
+    <% if param['name'][0] == "Sequence" -%>
+      <span style="font-weight:normal;"><%= param['description'][0].gsub!("entered directly into this form","supplied in the input file") -%></span><br>
+    <% else -%>
+      <span style="font-weight:normal;"><%= param['description'][0] -%></span></br>
+    <% end -%>
+      <% if !param['values'].nil? -%>
+        <% param['values'].each do |val| -%>
+          <%= p.select(param['ID'], options_for_select(param['values'][0]['value'].collect {|x| x['value'][0]})) -%><br>
+        <% end -%>
+      <% else -%>
+        <!-- <%= p.text_area param['ID'] -%>-->
+      <% end -%> 
+  </div>
+  <% end -%> 
+  
+  <% end -%>  
+
+  <br>Click the button below to submit the values for your analysis:
+  <div class="actions">
+    <%= f.submit "Submit"%>
+  </div>
+
+<% end %>
+</div>
+<p>For more information about public and private jobs, please refer to the <a href="/faq#private">FAQ</a>.</p>
+

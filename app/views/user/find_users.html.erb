@@ -1,0 +1,44 @@
+<% if !request.post? -%>
+  <div class="oboe-services-header"><span class="content-section users-section"><span class="header-text">Find Users</span></span></div>
+
+<p>Find users by e-mail: </p>
+<%= form_tag '/users/find' do -%>
+  <%= search_field_tag :email -%>
+  <%= submit_tag 'Submit' %>
+<% end -%>
+
+<% else -%>
+<div class="oboe-services-header"><span class="content-section users-section"><span class="header-text">Listing Users</span></span></div>
+
+<table class="table table-condensed" cellpadding="2">
+  <tr valign="top" class="ListLine0">
+    <th>E-mail</th>
+    <th>Account</th>
+    <th>Created</th>
+    <th>Last login</th>
+    <th>IP address</th>
+    <th>Token enabled?</th>
+    <th>Admin?</th>
+  </tr>
+
+  <% 
+    odd_or_even = 0
+    @users.each do |user| 
+      odd_or_even = 1 - odd_or_even
+      @account = Account.find(user.account)
+  %>
+  <tr valign="top" class="ListLine<%= odd_or_even -%>">
+    <td><%= link_to user.email, :controller => 'user', :action => 'show_user', :id => user.id -%></td>
+    <td><%= link_to @account.name, :controller => 'accounts', :action => 'show', :id => user.account -%>
+    <td><%= user.created_at %></td>
+    <td><%= user.last_sign_in_at || "N/A" %></td>
+    <td><%= user.last_sign_in_ip || "N/A" %></td>
+    <td align="center"><%= "<span class='label label-success'>yes</span>".html_safe if !user.authentication_token.nil? %></td>
+    <td align="center"><%= "<span class='label label-success'>yes</span>".html_safe if user.admin == true %></td>
+  </tr>
+<% end %>
+</table>
+
+<br><%= link_to 'Find users', '/users/find' -%>
+
+<% end -%>

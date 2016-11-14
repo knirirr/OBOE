@@ -1,0 +1,2 @@
+RAILS_ENV="development"
+bundle exec sidekiq -e $RAILS_ENV > log/sidekiq.log 2>&1 &!

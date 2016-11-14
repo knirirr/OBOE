@@ -1,0 +1,59 @@
+<div class="oboe-services-header"><span class="content-section analyses-section"><span class="header-text">Listing all analyses</span></span></div>
+
+<table class="table table-condensed" cellpadding="2">
+  <tr valign="top">
+    <th>User email</th>
+    <th>ID</th>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Type</th>
+    <th>Public</th>
+    <th>Status</th>
+    <th>Created</th>
+    <th>Last updated</th>
+  </tr>
+
+  <% 
+    odd_or_even = 0
+    @jobs.each do |job| 
+      odd_or_even = 1 - odd_or_even
+  %>
+  <tr valign="top" class="ListLine<%= odd_or_even -%>">
+    <td><%= job.email %></td>
+    <td><%= link_to "#{job.id}", job %></td>
+    <td><%= job.job_name %></td>
+    <td><%= job.job_description %></td>
+    <td><%= job.type %></td>
+    <td><% if job.public == true -%>yes<%end-%></td>
+    <% if job.status == 'finished' -%>
+      <td style="width:65px"><span class="label label-success"><%= job.status %></span></td>
+    <% elsif job.status == 'error' -%>
+      <td style="width:65px"><span class="label label-error"><%= job.status %></span></td>
+    <% else -%>
+      <td style="width:65px"><span class="label label-other"><%= job.status %></span></td>
+    <% end -%>
+    <td><%= job.created_at %></td>
+    <td><%= job.updated_at %></td>
+  </tr>
+<% end %>
+</table>
+
+  <% if params[:type] == 'all' or params[:type].blank? -%>
+    <p>Showing all types.
+  <% else -%>
+    <p>Showing results of type: <%= @types.invert[params[:type]] -%>.
+  <% end -%>
+
+<%= form_tag('/show_all') do -%>
+   <%= label_tag 'type', 'Select job type:' -%>
+   <%= select_tag :type, options_for_select(@types) -%>
+   <div><%= submit_tag 'Show' %></div>
+<% end -%>
+
+
+
+<p> <%= will_paginate @jobs, :params => { :type => @currtype } -%><br>
+<%= page_entries_info @jobs -%>
+
+
+<p><%= link_to 'Home', :controller => 'jobs', :action => 'index'%></p>

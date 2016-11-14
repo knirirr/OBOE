@@ -1,0 +1,167 @@
+<!-- <p id="notice"><%= notice %></p> -->
+<%= @js.html_safe -%>
+<div id="job_title">
+<h1>Showing analysis - <%= @type -%></h1>
+</div>
+<% if Job.maptypes.include?(@headers) -%>
+  <div id="map">
+</div>
+<% end -%>
+<div id="privacy">
+<div id="job_info">
+<h3>General information</h3>
+<p>
+  <b>ID:</b>
+  <%= @job.id %><br>
+
+  <b>Type:</b>
+  <%= Job.types.invert[@job.type] %><br>
+
+  <b>Name:</b>
+  <%= @job.job_name %><br>
+
+  <b>Description:</b>
+  <%= @job.job_description %><br>
+
+  <b>Status:</b>
+  <span class="job_status"><%= @job.status %></div><br>
+
+  <b>Version:</b>
+  <%= @job.version || "N/A" %><br>
+
+  <% if !@job.inputurl.blank? -%>
+  <b>Input file URL:</b>
+  <%= @job.inputurl %><br>
+  <% end -%>
+
+
+<% if @error -%>
+  <b>Error:</b>
+  <%= @job.errormsg %><br>
+<% end -%>
+
+
+<% if !@job.parameters.empty? -%>
+  <h3>Parameters</h3>
+<p>
+<% @job.parameters.each_pair do |k,v| -%>
+  <% if k == 'coords'and !v.blank? -%>         
+    <b>Coordinates:</b> <%= link_to 'Link', :controller => 'jobs', :action => 'download_coords', :id => @job.id -%></br>
+  <% elsif k == 'species'and !v.blank? -%> <!-- this is new --> 
+    <b>Species:<br></b>
+    <% v.split(/[\r\n]+/).each do |sp| -%>
+      &nbsp;&nbsp;<%= sp -%><br/>
+    <% end -%>
+  <% elsif !v.blank?  -%>
+    <% if !Job.paramtypes(@job.type)[k].nil? -%>
+      <% if Job.paramtypes(@job.type)[k]['hidden'] == 'no' -%>
+        <% if v == '0' or v == '1' -%>
+        <b><%= Job.paramtypes(@job.type)[k]['name'] -%>:</b> <%= v == '1' ? 'yes' : 'no' -%><br>
+        <% else -%>
+          <% if @job.type == 'bict' -%>
+            <b><%= Job.paramtypes(@job.type)[k]['name'] -%>:</b> <%= Job.bict_types.invert[v] -%><br>
+          <% else -%>
+            <b><%= Job.paramtypes(@job.type)[k]['name'] -%>:</b> <%= v -%><br>
+          <% end -%>
+        <% end -%>
+      <% end -%>
+    <% end -%>
+  <% end -%>
+<% end -%>
+
+<% if !@job.proper_infilename.nil? -%>
+  <b>Input file:</b>
+  <%= @job.proper_infilename %><br>
+<% else %>
+  <b>Input file:</b>
+  <%= @infile || "N/A" %><br>
+<% end -%>
+
+</p>
+<% end -%>
+
+<!-- informaton here about public/private status --!>
+<% if current_user and (current_user.admin == true or current_user.email == @job.email) -%>
+  <b>Job visibility:</b>
+  <% if @job.public -%>
+    This job can be seen and downloaded by everyone. To hide it, click <%= link_to 'here', {:controller => '/jobs', :action => "toggle_public", :id => @job.id, } -%>.</br>
+  <% else -%>
+    This job is private. To make it visible to everyone, click <%= link_to 'here', {:controller => '/jobs', :action => "toggle_public", :id => @job.id, } -%>.</br>
+  <% end -%>
+<% end -%>
+
+<!-- downloads -->
+<% if current_user and current_user.admin == true -%>
+  <% if !@job.downloads.empty? -%>
+    <h3>Downloads (<%= @job.downloads.length -%>)</h3>
+    <table class="table table-condensed" cellpadding="2">
+      <tr valign="top">
+        <th>User</th>
+        <th>Request IP</th>
+        <th>Time</th>
+      </tr>
+        <%
+        odd_or_even = 0
+        @job.downloads.each do |dl|
+          parts = dl.split(/,/)
+          odd_or_even = 1 - odd_or_even
+      %>
+      <tr valign="top" class="ListLine<%= odd_or_even -%>">
+        <td><%= parts[0] %></td>
+        <td><%= parts[1] %></td>
+        <td><%= parts[2] %></td>
+      </tr>
+    <% end %>
+    </table>
+  <% end -%>
+<% end -%>
+<!-- end of downloads -->
+
+<% if current_user and (current_user.admin == true or current_user.email == @job.email) -%>
+  <% if @job.status == 'finished' || @job.status == 'error' -%>
+  <h3>Resubmission</h3>
+
+  <p>You may re-submit using identical names and paramters by clicking the &ldquo;Resubmit&rdquo; link below. This will allow you to re-run your analysis whilst preserving your previous results, which would (for example) be useful in circumstances where a new version of the analysis software is available.</p>
+  <% end -%>
+<% end -%>
+
+
+<p>
+<% if current_user and (current_user.admin == true or current_user.email == @job.email) -%>
+  <%= link_to 'Back', jobs_path %>
+<% else -%>
+  <%= link_to 'OBOE home', '/' %>
+<% end -%>
+
+<% if current_user and (current_user.admin == true or current_user.email == @job.email) -%>
+  <% if @job.status == 'held' -%>
+  | <%= link_to 'Edit', edit_job_path(@job) %> 
+  <% end -%>
+<% end -%>
+
+
+<% unless @job.status == 'in progress' and Job.maptypes.include?(@job.type) -%>
+  <% if current_user and (current_user.admin == true or current_user.email == @job.email) -%>
+    | <%= link_to 'Destroy', @job, :confirm => 'Are you sure?', :method => :delete %>
+  <% end -%>
+<% end -%>
+
+<% if @job.status == 'finished' || @job.status == 'error'-%>
+  <% if current_user and (current_user.admin == true or current_user.email == @job.email) -%>
+    | <%= link_to 'Resubmit', { :controller => 'jobs', :action => 'recreate', :id => @job.id }, :method => :put, :confirm =>  "Are you sure?" %>
+  <% end -%>
+ | <%= link_to 'Download', :controller => 'jobs', :action => 'download', :id => @job.id-%>
+<% end -%>
+
+
+<% if current_user and current_user.admin == true -%>
+  <!--  | <%= link_to 'Inspect', { :controller => 'info', :action => 'inspect', :id => @job.id, :type => @job.type } %> -->
+  | <a href="/inspect/<%= @job.type -%>/<%= @job.id -%>">Inspect</a>
+<% end -%>
+
+
+
+</div>
+
+</div>
+

@@ -1,0 +1,126 @@
+<script type="text/javascript" src="/assets/js/sql-parser.js"></script>
+<script>
+$(document).ready(function() {
+  $(".actions").hide();
+  $("#job_parameters_sql").bind('input propertychange', function() {
+    var query = $("#job_parameters_sql");
+    try {
+      SQLParser.parse(query.val());
+      query.removeClass('red');
+      query.addClass('green');
+      $(".actions").show();
+    } catch (err) {
+      query.removeClass('green');
+      query.addClass('red');
+      $(".actions").hide();
+    }
+  });
+});
+</script>
+
+<p>Here's are the table definitions:</pre>
+
+<div id="sql_dump">
+<pre style="font-family:monospace;">
+               Table "public.comments"
+     Column      |          Type          | Modifiers 
+-----------------+------------------------+-----------
+ comment_id      | character varying(50)  | not null
+ subject_id      | character varying(50)  | 
+ discussion_id   | character varying(50)  | 
+ created_at      | character varying(50)  | 
+ user_id         | integer                | 
+ country         | character varying(128) | 
+ region          | character varying(128) | 
+ city            | character varying(128) | 
+ latitude        | double precision       | 
+ longitude       | double precision       | 
+ email_dom       | character varying(128) | 
+ type            | character varying(128) | 
+ project         | character varying(50)  | 
+ body            | text                   | 
+ tags            | text                   | 
+ assigned_gender | character varying(50)  | 
+ p_m             | double precision       | 
+ p_f             | double precision       | 
+
+              Table "public.classifications"
+      Column       |          Type          | Modifiers 
+-------------------+------------------------+-----------
+ classification_id | character varying(25)  | not null
+ subject_id        | character varying(25)  | 
+ created_at        | character varying(50)  | 
+ user_id           | integer                | 
+ user_loc          | character varying(128) | 
+ email_dom         | character varying(50)  | 
+ type              | character varying(128) | 
+ project           | character varying(128) | 
+ data              | text                   | 
+ assigned_gender   | character varying(8)   | 
+ p_m               | double precision       | 
+ p_f               | double precision       | 
+ country           | character varying(128) | 
+ region            | character varying(128) | 
+ city              | character varying(128) | 
+ latitude          | double precision       | 
+ longitude         | double precision       | 
+</pre>
+</div>
+
+
+<p>Stuff to add to this job type:
+<ul>
+  <li>- Checking of SQL query before it can be submitted isn't perfect - I'm not sure how to improve it, but at least it catches outright errors.
+  <li>- Use of zooprism gem to connect to a Redshift cluster rather than a local postgres database (inc. Sidekiq tasks to control Redshift's status).
+  <li>- Better ways of downloading/accessing the output from the SQL query.
+  <li>- A summary of the results to be presented so the user knows whether to bother downloading or not.
+  <li>- If OBOE is to be used directly then admin access and policies will have to be upgraded; perhaps not if it is forked.
+  <li>- Whatever other stuff is requested.
+</ul>
+
+<div id="applet">
+
+<applet CODEBASE="https://oboe.oerc.ox.ac.uk/jar/"
+ARCHIVE="jta26.jar"
+CODE="de.mud.jta.Applet" 
+WIDTH=590 HEIGHT=360>
+<param name="config" value="applet.conf">
+</applet>
+
+</div>
+
+<%= form_for(@job, :html => { :multipart => true}) do |f| %>
+  <% if @job.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@job.errors.count, "error") %> prohibited this job from being saved:</h2>
+
+      <ul>
+      <% @job.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.label 'Title' %><br />
+    <%= f.text_field :job_name %>
+  </div>
+  <div class="field">
+    <%= f.label :job_description %><br />
+    <%= f.text_field :job_description %>
+  </div>
+  <%= f.fields_for :parameters do |p| %>
+  <div class="field">    
+    <%= p.label "SQL query" %><br />    
+    <%= p.text_area :sql, :value => @job.parameters['sql'] -%>  
+  </div>
+  <% end -%>
+  <div class="field">
+    <%= f.label :public %><br />
+    <%= f.check_box :public %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+<p>For more information about public and private jobs, please refer to the <a href="/faq#private">FAQ</a>.</p>
