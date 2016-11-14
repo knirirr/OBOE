@@ -29,7 +29,7 @@ As each job extension is a Ruby script it can contain whatever code is necessary
 
 ### Licence
 
-This legacy code is licensed under the terms of the [MIT Licence}(https://opensource.org/licenses/MIT).
+This legacy code is licensed under the terms of the [MIT Licence](https://opensource.org/licenses/MIT).
 
 
 ### Questions
