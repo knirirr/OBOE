@@ -35,3 +35,9 @@ This legacy code is licensed under the terms of the [MIT Licence](https://openso
 ### Questions
 
 If you have any questions then please contact <milo.thurston@oerc.ox.ac.uk>.
+
+### Screenshot
+
+N.B. some images are missing at the bottom as they were added by means of some javascript depending on which services were active.
+
+![alt tag](https://raw.githubusercontent.com/knirirr/OBOE/master/oboe.png)
